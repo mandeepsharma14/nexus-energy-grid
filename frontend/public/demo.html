@@ -1,0 +1,2363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>NexusGrid – AI-Powered Energy Intelligence Platform</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+:root {
+  --bg: #05080f;
+  --bg2: #080d18;
+  --bg3: #0c1220;
+  --surface: #0f1623;
+  --surface2: #131c2e;
+  --border: #1e2d45;
+  --border2: #243549;
+  --blue: #38bdf8;
+  --blue2: #0ea5e9;
+  --blue-dim: rgba(56,189,248,0.12);
+  --green: #34d399;
+  --green-dim: rgba(52,211,153,0.12);
+  --purple: #a78bfa;
+  --purple-dim: rgba(167,139,250,0.12);
+  --orange: #fb923c;
+  --orange-dim: rgba(251,146,60,0.12);
+  --yellow: #fbbf24;
+  --yellow-dim: rgba(251,191,36,0.12);
+  --red: #f87171;
+  --red-dim: rgba(248,113,113,0.12);
+  --text: #e2e8f0;
+  --text2: #94a3b8;
+  --text3: #64748b;
+  --accent: #38bdf8;
+}
+
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:'DM Sans',sans-serif;
+  font-size:14px;
+  line-height:1.6;
+  overflow-x:hidden;
+}
+
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar{width:4px;height:4px;}
+::-webkit-scrollbar-track{background:var(--bg);}
+::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px;}
+
+/* ── UTILITY ── */
+.mono{font-family:'JetBrains Mono',monospace;}
+.syne{font-family:'Syne',sans-serif;}
+.hidden{display:none!important;}
+.flex{display:flex;}
+.items-center{align-items:center;}
+.gap-2{gap:8px;}
+.gap-3{gap:12px;}
+.gap-4{gap:16px;}
+
+/* ── NOISE OVERLAY ── */
+body::before{
+  content:'';position:fixed;inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events:none;z-index:0;opacity:0.4;
+}
+
+/* ══════════════════════════════════
+   LANDING PAGE
+══════════════════════════════════ */
+#landing{
+  position:fixed;inset:0;z-index:1000;
+  background:var(--bg);
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  overflow:hidden;
+}
+
+.land-grid{
+  position:absolute;inset:0;
+  background-image:
+    linear-gradient(rgba(56,189,248,0.04) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(56,189,248,0.04) 1px,transparent 1px);
+  background-size:60px 60px;
+}
+
+.land-glow{
+  position:absolute;
+  width:800px;height:800px;
+  border-radius:50%;
+  background:radial-gradient(circle,rgba(56,189,248,0.06) 0%,transparent 70%);
+  top:50%;left:50%;transform:translate(-50%,-50%);
+  animation:pulse-glow 4s ease-in-out infinite;
+}
+
+@keyframes pulse-glow{
+  0%,100%{opacity:0.6;transform:translate(-50%,-50%) scale(1);}
+  50%{opacity:1;transform:translate(-50%,-50%) scale(1.1);}
+}
+
+.land-orb{
+  position:absolute;border-radius:50%;filter:blur(80px);
+}
+.orb1{width:400px;height:400px;background:rgba(56,189,248,0.08);top:-100px;right:-100px;}
+.orb2{width:300px;height:300px;background:rgba(167,139,250,0.08);bottom:-50px;left:-50px;}
+.orb3{width:200px;height:200px;background:rgba(52,211,153,0.06);bottom:100px;right:200px;}
+
+.land-content{position:relative;z-index:2;text-align:center;max-width:800px;padding:0 24px;}
+
+.land-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(56,189,248,0.08);border:1px solid rgba(56,189,248,0.25);
+  border-radius:100px;padding:6px 16px;margin-bottom:32px;
+  font-size:11px;letter-spacing:2px;color:var(--blue);font-weight:600;
+}
+.badge-dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:blink 2s ease infinite;}
+@keyframes blink{0%,100%{opacity:1;}50%{opacity:0.3;};}
+
+.land-title{
+  font-family:'Syne',sans-serif;
+  font-size:clamp(48px,8vw,88px);
+  font-weight:800;
+  line-height:0.95;
+  margin-bottom:12px;
+  letter-spacing:-3px;
+}
+.land-title .line1{color:#fff;}
+.land-title .line2{
+  background:linear-gradient(135deg,#38bdf8,#a78bfa,#34d399);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+
+.land-sub{
+  font-size:18px;color:var(--text2);margin-bottom:48px;max-width:600px;margin-inline:auto;
+  font-weight:300;line-height:1.7;
+}
+.land-sub strong{color:var(--text);font-weight:500;}
+
+.land-cta{
+  display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap;
+  margin-bottom:60px;
+}
+
+.btn-primary{
+  background:linear-gradient(135deg,var(--blue2),#6366f1);
+  color:#fff;border:none;
+  padding:16px 36px;border-radius:12px;
+  font-family:'Syne',sans-serif;font-weight:700;font-size:15px;letter-spacing:0.5px;
+  cursor:pointer;transition:all 0.3s;
+  box-shadow:0 0 40px rgba(56,189,248,0.25);
+  position:relative;overflow:hidden;
+}
+.btn-primary::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,rgba(255,255,255,0.1),transparent);
+}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 0 60px rgba(56,189,248,0.4);}
+
+.btn-secondary{
+  background:transparent;
+  color:var(--text2);border:1px solid var(--border2);
+  padding:16px 28px;border-radius:12px;
+  font-size:14px;cursor:pointer;transition:all 0.3s;
+}
+.btn-secondary:hover{border-color:var(--blue);color:var(--blue);}
+
+.land-metrics{
+  display:flex;justify-content:center;gap:48px;flex-wrap:wrap;
+}
+.lm-item{text-align:center;}
+.lm-val{font-family:'Syne',sans-serif;font-size:32px;font-weight:800;color:var(--blue);}
+.lm-label{font-size:11px;color:var(--text3);letter-spacing:1px;margin-top:4px;}
+
+.land-clients{
+  margin-top:48px;padding-top:48px;
+  border-top:1px solid var(--border);
+  text-align:center;
+}
+.clients-label{font-size:11px;color:var(--text3);letter-spacing:2px;margin-bottom:20px;}
+.clients-row{display:flex;justify-content:center;gap:32px;flex-wrap:wrap;}
+.client-tag{
+  color:var(--text3);font-size:12px;font-weight:600;letter-spacing:1px;
+  padding:6px 16px;border:1px solid var(--border);border-radius:6px;
+  transition:all 0.2s;
+}
+.client-tag:hover{color:var(--text2);border-color:var(--border2);}
+
+/* ══════════════════════════════════
+   APP SHELL
+══════════════════════════════════ */
+#app{display:none;height:100vh;flex-direction:column;}
+
+/* TOP NAV */
+.topnav{
+  display:flex;align-items:center;gap:0;
+  background:var(--bg2);
+  border-bottom:1px solid var(--border);
+  height:56px;padding:0 20px;
+  position:sticky;top:0;z-index:100;
+  flex-shrink:0;
+}
+
+.nav-logo{
+  font-family:'Syne',sans-serif;font-weight:800;font-size:18px;
+  background:linear-gradient(135deg,#38bdf8,#a78bfa);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  margin-right:32px;white-space:nowrap;
+  display:flex;align-items:center;gap:8px;
+}
+.logo-icon{
+  width:28px;height:28px;border-radius:7px;
+  background:linear-gradient(135deg,var(--blue2),#6366f1);
+  display:flex;align-items:center;justify-content:center;font-size:14px;
+}
+
+.nav-tabs{display:flex;gap:2px;flex:1;}
+.nav-tab{
+  padding:6px 14px;border-radius:8px;
+  font-size:13px;font-weight:500;color:var(--text3);
+  cursor:pointer;transition:all 0.2s;white-space:nowrap;
+  display:flex;align-items:center;gap:6px;border:none;background:none;
+}
+.nav-tab:hover{color:var(--text);background:var(--surface);}
+.nav-tab.active{color:var(--blue);background:var(--blue-dim);}
+.nav-tab .ti{font-size:14px;}
+
+.nav-right{display:flex;align-items:center;gap:12px;margin-left:auto;}
+
+.demo-badge{
+  display:flex;align-items:center;gap:6px;
+  background:rgba(52,211,153,0.1);border:1px solid rgba(52,211,153,0.25);
+  border-radius:6px;padding:4px 10px;
+  font-size:11px;color:var(--green);font-weight:600;letter-spacing:1px;
+}
+
+.org-picker{
+  background:var(--surface);border:1px solid var(--border);
+  color:var(--text);border-radius:8px;padding:6px 10px;
+  font-size:12px;cursor:pointer;outline:none;
+}
+
+.avatar{
+  width:32px;height:32px;border-radius:8px;
+  background:linear-gradient(135deg,var(--blue2),#6366f1);
+  display:flex;align-items:center;justify-content:center;
+  font-size:12px;font-weight:700;color:#fff;
+  cursor:pointer;
+}
+
+/* CONTENT AREA */
+.app-body{display:flex;flex:1;overflow:hidden;}
+
+/* SIDEBAR */
+.sidebar{
+  width:220px;background:var(--bg2);border-right:1px solid var(--border);
+  padding:16px 12px;overflow-y:auto;flex-shrink:0;
+  display:flex;flex-direction:column;gap:4px;
+}
+.sidebar-section{font-size:10px;color:var(--text3);letter-spacing:1.5px;font-weight:600;
+  padding:12px 8px 6px;margin-top:8px;}
+.sidebar-item{
+  display:flex;align-items:center;gap:10px;
+  padding:8px 10px;border-radius:8px;
+  font-size:13px;color:var(--text2);cursor:pointer;
+  transition:all 0.15s;border:none;background:none;width:100%;text-align:left;
+}
+.sidebar-item:hover{background:var(--surface);color:var(--text);}
+.sidebar-item.active{background:var(--blue-dim);color:var(--blue);}
+.sidebar-item .si-icon{font-size:15px;width:18px;text-align:center;}
+.sidebar-item .si-badge{
+  margin-left:auto;background:var(--red);color:#fff;
+  font-size:9px;font-weight:700;padding:1px 5px;border-radius:4px;
+}
+.sidebar-item .si-badge.blue{background:var(--blue-dim);color:var(--blue);}
+
+/* MAIN CONTENT */
+.main{flex:1;overflow-y:auto;background:var(--bg);}
+.page{padding:24px;display:none;}
+.page.active{display:block;}
+
+/* ══════════════════════════════════
+   COMMON COMPONENTS
+══════════════════════════════════ */
+.page-header{margin-bottom:24px;}
+.page-title{font-family:'Syne',sans-serif;font-size:24px;font-weight:800;color:#fff;margin-bottom:4px;}
+.page-sub{font-size:13px;color:var(--text3);}
+
+/* GRID */
+.grid{display:grid;gap:16px;}
+.grid-2{grid-template-columns:repeat(2,1fr);}
+.grid-3{grid-template-columns:repeat(3,1fr);}
+.grid-4{grid-template-columns:repeat(4,1fr);}
+.grid-5{grid-template-columns:repeat(5,1fr);}
+
+/* CARD */
+.card{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:14px;padding:20px;
+  transition:border-color 0.2s;
+}
+.card:hover{border-color:var(--border2);}
+.card-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;}
+.card-title{font-family:'Syne',sans-serif;font-size:13px;font-weight:700;color:var(--text2);letter-spacing:0.5px;}
+.card-action{font-size:11px;color:var(--blue);cursor:pointer;}
+
+/* STAT CARD */
+.stat-card{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:14px;padding:20px;
+  position:relative;overflow:hidden;transition:all 0.2s;
+}
+.stat-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,transparent,var(--accent-color,var(--blue)),transparent);
+}
+.stat-card:hover{border-color:var(--border2);transform:translateY(-1px);}
+.sc-label{font-size:11px;color:var(--text3);letter-spacing:1px;font-weight:600;margin-bottom:8px;}
+.sc-value{font-family:'Syne',sans-serif;font-size:28px;font-weight:800;color:#fff;margin-bottom:6px;line-height:1;}
+.sc-change{font-size:12px;display:flex;align-items:center;gap:4px;}
+.sc-change.up{color:var(--green);}
+.sc-change.down{color:var(--red);}
+.sc-icon{
+  position:absolute;top:16px;right:16px;
+  width:36px;height:36px;border-radius:9px;
+  display:flex;align-items:center;justify-content:center;font-size:17px;
+}
+
+/* TAG */
+.tag{
+  display:inline-flex;align-items:center;gap:4px;
+  padding:3px 8px;border-radius:5px;font-size:11px;font-weight:600;
+}
+.tag.green{background:var(--green-dim);color:var(--green);}
+.tag.blue{background:var(--blue-dim);color:var(--blue);}
+.tag.red{background:var(--red-dim);color:var(--red);}
+.tag.orange{background:var(--orange-dim);color:var(--orange);}
+.tag.yellow{background:var(--yellow-dim);color:var(--yellow);}
+.tag.purple{background:var(--purple-dim);color:var(--purple);}
+
+/* PROGRESS BAR */
+.progress{background:var(--border);border-radius:4px;height:6px;overflow:hidden;}
+.progress-bar{height:100%;border-radius:4px;transition:width 0.8s ease;}
+
+/* CHART WRAPPER */
+.chart-wrap{position:relative;width:100%;}
+
+/* TABLE */
+.data-table{width:100%;border-collapse:collapse;}
+.data-table th{
+  font-size:10px;color:var(--text3);letter-spacing:1.5px;font-weight:600;
+  padding:8px 12px;border-bottom:1px solid var(--border);text-align:left;
+}
+.data-table td{
+  padding:10px 12px;border-bottom:1px solid var(--border);
+  font-size:13px;color:var(--text);
+}
+.data-table tr:last-child td{border-bottom:none;}
+.data-table tr:hover td{background:var(--surface2);}
+
+/* ALERT ITEM */
+.alert-item{
+  display:flex;align-items:flex-start;gap:12px;
+  padding:12px;border-radius:10px;margin-bottom:8px;
+  background:var(--surface2);border:1px solid var(--border);
+  transition:all 0.2s;cursor:pointer;
+}
+.alert-item:hover{border-color:var(--border2);}
+.alert-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-top:4px;}
+.alert-content{flex:1;}
+.alert-title{font-size:13px;color:var(--text);font-weight:500;margin-bottom:2px;}
+.alert-meta{font-size:11px;color:var(--text3);}
+
+/* INSIGHT CARD */
+.insight-card{
+  background:var(--surface2);border:1px solid var(--border);
+  border-radius:12px;padding:16px;margin-bottom:12px;
+  border-left:3px solid var(--left-color,var(--blue));
+  transition:all 0.2s;cursor:pointer;
+}
+.insight-card:hover{border-color:var(--left-color,var(--blue));background:var(--surface);}
+.insight-type{font-size:10px;letter-spacing:1.5px;font-weight:700;margin-bottom:6px;color:var(--left-color,var(--blue));}
+.insight-title{font-size:14px;font-weight:600;color:var(--text);margin-bottom:6px;}
+.insight-body{font-size:12px;color:var(--text2);line-height:1.6;}
+.insight-meta{display:flex;align-items:center;gap:10px;margin-top:10px;}
+.insight-saving{
+  font-family:'JetBrains Mono',monospace;font-size:14px;font-weight:600;
+  color:var(--green);
+}
+
+/* FACILITY CARD */
+.facility-card{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:14px;overflow:hidden;cursor:pointer;transition:all 0.2s;
+}
+.facility-card:hover{border-color:var(--border2);transform:translateY(-2px);}
+.fc-header{padding:16px;border-bottom:1px solid var(--border);}
+.fc-name{font-family:'Syne',sans-serif;font-size:15px;font-weight:700;color:#fff;margin-bottom:4px;}
+.fc-loc{font-size:11px;color:var(--text3);}
+.fc-stats{padding:14px 16px;display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.fc-stat-label{font-size:10px;color:var(--text3);margin-bottom:2px;}
+.fc-stat-val{font-family:'Syne',sans-serif;font-size:16px;font-weight:700;color:#fff;}
+.fc-footer{padding:10px 16px;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
+
+/* COPILOT */
+.copilot-wrap{
+  display:flex;flex-direction:column;height:calc(100vh - 56px - 80px);
+  max-height:600px;
+}
+.copilot-messages{
+  flex:1;overflow-y:auto;padding:0 0 16px;
+  display:flex;flex-direction:column;gap:12px;
+}
+.msg{display:flex;gap:10px;max-width:85%;}
+.msg.user{align-self:flex-end;flex-direction:row-reverse;}
+.msg-avatar{
+  width:30px;height:30px;border-radius:8px;
+  background:var(--surface2);display:flex;align-items:center;justify-content:center;
+  font-size:13px;flex-shrink:0;
+}
+.msg.user .msg-avatar{background:linear-gradient(135deg,var(--blue2),#6366f1);}
+.msg-bubble{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:12px;padding:12px 14px;font-size:13px;line-height:1.6;color:var(--text);
+}
+.msg.user .msg-bubble{background:var(--blue-dim);border-color:rgba(56,189,248,0.2);}
+.msg-bubble .highlight{color:var(--green);font-weight:600;}
+.msg-bubble .stat-inline{
+  display:inline-block;background:var(--surface2);border:1px solid var(--border);
+  border-radius:6px;padding:2px 8px;font-family:'JetBrains Mono',monospace;font-size:12px;
+  color:var(--blue);margin:2px;
+}
+.copilot-suggestions{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;}
+.suggestion-chip{
+  background:var(--surface);border:1px solid var(--border);
+  color:var(--text2);font-size:11px;padding:6px 12px;border-radius:8px;
+  cursor:pointer;transition:all 0.2s;white-space:nowrap;
+}
+.suggestion-chip:hover{border-color:var(--blue);color:var(--blue);}
+.copilot-input-row{display:flex;gap:10px;align-items:center;}
+.copilot-input{
+  flex:1;background:var(--surface);border:1px solid var(--border);
+  color:var(--text);border-radius:10px;padding:12px 14px;
+  font-size:13px;outline:none;transition:border-color 0.2s;
+  font-family:'DM Sans',sans-serif;
+}
+.copilot-input:focus{border-color:var(--blue);}
+.copilot-send{
+  background:linear-gradient(135deg,var(--blue2),#6366f1);
+  border:none;color:#fff;border-radius:10px;padding:12px 16px;
+  cursor:pointer;font-size:16px;transition:all 0.2s;
+}
+.copilot-send:hover{transform:scale(1.05);}
+
+/* TYPING INDICATOR */
+.typing{display:flex;gap:4px;padding:8px 0;}
+.typing span{
+  width:6px;height:6px;border-radius:50%;background:var(--text3);
+  animation:typing-bounce 1s ease infinite;
+}
+.typing span:nth-child(2){animation-delay:0.15s;}
+.typing span:nth-child(3){animation-delay:0.3s;}
+@keyframes typing-bounce{0%,60%,100%{transform:translateY(0);}30%{transform:translateY(-6px);}}
+
+/* SIMULATOR */
+.sim-input{
+  background:var(--surface);border:1px solid var(--border);
+  color:var(--text);border-radius:8px;padding:8px 12px;
+  font-size:13px;outline:none;width:100%;
+}
+.sim-slider{
+  width:100%;height:4px;border-radius:4px;
+  background:var(--border);accent-color:var(--blue);cursor:pointer;
+}
+.sim-result{
+  background:linear-gradient(135deg,rgba(52,211,153,0.08),rgba(56,189,248,0.08));
+  border:1px solid rgba(52,211,153,0.2);border-radius:12px;
+  padding:20px;text-align:center;
+}
+.sim-result-val{
+  font-family:'Syne',sans-serif;font-size:40px;font-weight:800;
+  color:var(--green);line-height:1;margin-bottom:8px;
+}
+.sim-result-label{font-size:13px;color:var(--text2);}
+
+/* ESG RING */
+.esg-ring-wrap{position:relative;width:120px;height:120px;margin:0 auto;}
+.esg-ring-label{
+  position:absolute;inset:0;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;text-align:center;
+}
+.esg-ring-val{font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:#fff;}
+.esg-ring-sub{font-size:10px;color:var(--text3);}
+
+/* LOADING */
+.loading-overlay{
+  position:fixed;inset:0;background:var(--bg);z-index:2000;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;
+}
+.loading-logo{
+  font-family:'Syne',sans-serif;font-size:32px;font-weight:800;
+  background:linear-gradient(135deg,#38bdf8,#a78bfa);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.loading-bar{width:240px;height:2px;background:var(--border);border-radius:2px;overflow:hidden;}
+.loading-fill{
+  height:100%;background:linear-gradient(90deg,var(--blue),var(--purple));
+  width:0;transition:width 0.4s ease;
+}
+.loading-status{font-size:11px;color:var(--text3);letter-spacing:1px;}
+
+/* SCROLLABLE X */
+.scroll-x{overflow-x:auto;}
+
+/* SEPARATOR */
+.sep{height:1px;background:var(--border);margin:16px 0;}
+
+/* MINI CHART */
+.sparkline{height:40px;width:100%;}
+
+/* BUTTON */
+.btn{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:8px 16px;border-radius:8px;font-size:13px;
+  cursor:pointer;transition:all 0.2s;border:none;font-family:'DM Sans',sans-serif;
+  font-weight:500;
+}
+.btn-sm{padding:5px 10px;font-size:12px;}
+.btn-blue{background:var(--blue-dim);color:var(--blue);}
+.btn-blue:hover{background:rgba(56,189,248,0.2);}
+.btn-green{background:var(--green-dim);color:var(--green);}
+.btn-purple{background:var(--purple-dim);color:var(--purple);}
+.btn-ghost{background:transparent;color:var(--text2);border:1px solid var(--border);}
+.btn-ghost:hover{border-color:var(--border2);color:var(--text);}
+
+/* REALTIME BLINK */
+.rt-dot{
+  width:7px;height:7px;border-radius:50%;background:var(--green);
+  animation:blink 1.5s ease infinite;
+}
+
+/* TWIN CONTROLS */
+.twin-control{margin-bottom:16px;}
+.twin-label{font-size:11px;color:var(--text3);margin-bottom:6px;letter-spacing:1px;font-weight:600;}
+.twin-slider{width:100%;height:4px;border-radius:4px;background:var(--border);accent-color:var(--blue);cursor:pointer;}
+
+/* GAUGE */
+.gauge-wrap{position:relative;width:140px;height:80px;margin:0 auto;}
+
+/* SCROLLING TICKER */
+.ticker-wrap{
+  overflow:hidden;border-top:1px solid var(--border);
+  background:var(--bg2);padding:8px 0;
+  display:flex;align-items:center;
+}
+.ticker-label{font-size:10px;color:var(--text3);letter-spacing:2px;padding:0 16px;white-space:nowrap;border-right:1px solid var(--border);margin-right:16px;}
+.ticker-track{display:flex;gap:48px;animation:ticker 30s linear infinite;white-space:nowrap;}
+.ticker-item{font-size:12px;color:var(--text2);}
+.ticker-item .up{color:var(--green);}
+.ticker-item .down{color:var(--red);}
+@keyframes ticker{0%{transform:translateX(0);}100%{transform:translateX(-50%);}}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+  .sidebar{display:none;}
+  .grid-4{grid-template-columns:repeat(2,1fr);}
+  .grid-5{grid-template-columns:repeat(2,1fr);}
+}
+@media(max-width:600px){
+  .grid-2,.grid-3{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<!-- LOADING SCREEN -->
+<div class="loading-overlay" id="loadingScreen">
+  <div class="loading-logo">⚡ NexusGrid</div>
+  <div class="loading-bar"><div class="loading-fill" id="loadFill"></div></div>
+  <div class="loading-status" id="loadStatus">INITIALIZING AI ENGINE...</div>
+</div>
+
+<!-- LANDING PAGE -->
+<div id="landing">
+  <div class="land-grid"></div>
+  <div class="land-glow"></div>
+  <div class="land-orb orb1"></div>
+  <div class="land-orb orb2"></div>
+  <div class="land-orb orb3"></div>
+
+  <div class="land-content">
+    <div class="land-badge">
+      <div class="badge-dot"></div>
+      AI-NATIVE ENERGY INTELLIGENCE PLATFORM
+    </div>
+
+    <div class="land-title">
+      <div class="line1">NexusGrid</div>
+      <div class="line2">Energy Intelligence</div>
+    </div>
+
+    <p class="land-sub">
+      The <strong>next-generation enterprise platform</strong> that predicts, optimizes, and automates energy decisions —
+      powered by AI/ML with <strong>real-time digital twin modeling</strong> and autonomous insight generation.
+    </p>
+
+    <div class="land-cta">
+      <button class="btn-primary" onclick="launchDemo()">⚡ Launch Demo Platform</button>
+      <button class="btn-secondary" onclick="launchDemo()">View Architecture →</button>
+    </div>
+
+    <div class="land-metrics">
+      <div class="lm-item"><div class="lm-val">25%</div><div class="lm-label">AVG COST REDUCTION</div></div>
+      <div class="lm-item"><div class="lm-val">$2.4M</div><div class="lm-label">AVG ANNUAL SAVINGS</div></div>
+      <div class="lm-item"><div class="lm-val">40%</div><div class="lm-label">CARBON REDUCTION</div></div>
+      <div class="lm-item"><div class="lm-val">94%</div><div class="lm-label">FORECAST ACCURACY</div></div>
+    </div>
+
+    <div class="land-clients">
+      <div class="clients-label">TRUSTED BY ENTERPRISE ORGANIZATIONS</div>
+      <div class="clients-row">
+        <div class="client-tag">MANUFACTURING</div>
+        <div class="client-tag">RETAIL CHAINS</div>
+        <div class="client-tag">COMMERCIAL RE</div>
+        <div class="client-tag">LOGISTICS</div>
+        <div class="client-tag">DATA CENTERS</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- APP SHELL -->
+<div id="app">
+
+  <!-- TOP NAV -->
+  <div class="topnav">
+    <div class="nav-logo">
+      <div class="logo-icon">⚡</div>
+      NexusGrid
+    </div>
+
+    <div class="nav-tabs">
+      <button class="nav-tab active" onclick="showPage('portfolio',this)" data-page="portfolio">
+        <span class="ti">📊</span> Portfolio
+      </button>
+      <button class="nav-tab" onclick="showPage('facility',this)" data-page="facility">
+        <span class="ti">🏭</span> Facilities
+      </button>
+      <button class="nav-tab" onclick="showPage('analytics',this)" data-page="analytics">
+        <span class="ti">📈</span> Analytics
+      </button>
+      <button class="nav-tab" onclick="showPage('copilot',this)" data-page="copilot">
+        <span class="ti">🤖</span> AI Copilot
+      </button>
+      <button class="nav-tab" onclick="showPage('forecasts',this)" data-page="forecasts">
+        <span class="ti">🔮</span> Forecasts
+      </button>
+      <button class="nav-tab" onclick="showPage('optimizer',this)" data-page="optimizer">
+        <span class="ti">⚙️</span> Optimizer
+      </button>
+      <button class="nav-tab" onclick="showPage('carbon',this)" data-page="carbon">
+        <span class="ti">🌱</span> Sustainability
+      </button>
+      <button class="nav-tab" onclick="showPage('twin',this)" data-page="twin">
+        <span class="ti">🔷</span> Digital Twin
+      </button>
+      <button class="nav-tab" onclick="showPage('alerts',this)" data-page="alerts">
+        <span class="ti">🔔</span> Alerts <span class="si-badge" style="background:var(--red);color:#fff;font-size:9px;padding:1px 5px;border-radius:3px;margin-left:2px;">7</span>
+      </button>
+    </div>
+
+    <div class="nav-right">
+      <div class="demo-badge"><div class="rt-dot"></div> DEMO LIVE</div>
+      <select class="org-picker" id="orgPicker" onchange="switchOrg()">
+        <option value="mfg">🏭 ArcelorSteel Manufacturing</option>
+        <option value="retail">🛒 MegaMart Retail Chain</option>
+        <option value="cre">🏢 PrimePlex Commercial RE</option>
+        <option value="logistics">🚛 SwiftLogix Warehouses</option>
+        <option value="dc">💻 Vertex Data Centers</option>
+      </select>
+      <div class="avatar">MS</div>
+    </div>
+  </div>
+
+  <!-- TICKER -->
+  <div class="ticker-wrap">
+    <div class="ticker-label">LIVE ENERGY MARKETS</div>
+    <div class="ticker-track" id="ticker">
+      <span class="ticker-item">PJM Day-Ahead <span class="up">$48.20/MWh ▲2.3%</span></span>
+      <span class="ticker-item">ERCOT Real-Time <span class="down">$41.80/MWh ▼1.1%</span></span>
+      <span class="ticker-item">NYISO Zone A <span class="up">$52.40/MWh ▲0.8%</span></span>
+      <span class="ticker-item">Natural Gas Henry Hub <span class="up">$2.84/MMBtu ▲3.2%</span></span>
+      <span class="ticker-item">Carbon Credits (CA) <span class="up">$31.20/MT ▲1.5%</span></span>
+      <span class="ticker-item">Renewable (Solar) <span class="down">$28.90/MWh ▼0.4%</span></span>
+      <span class="ticker-item">Coal (App. Central) <span class="down">$71.10/ton ▼2.1%</span></span>
+      <span class="ticker-item">PJM Day-Ahead <span class="up">$48.20/MWh ▲2.3%</span></span>
+      <span class="ticker-item">ERCOT Real-Time <span class="down">$41.80/MWh ▼1.1%</span></span>
+      <span class="ticker-item">NYISO Zone A <span class="up">$52.40/MWh ▲0.8%</span></span>
+      <span class="ticker-item">Natural Gas Henry Hub <span class="up">$2.84/MMBtu ▲3.2%</span></span>
+      <span class="ticker-item">Carbon Credits (CA) <span class="up">$31.20/MT ▲1.5%</span></span>
+      <span class="ticker-item">Renewable (Solar) <span class="down">$28.90/MWh ▼0.4%</span></span>
+      <span class="ticker-item">Coal (App. Central) <span class="down">$71.10/ton ▼2.1%</span></span>
+    </div>
+  </div>
+
+  <!-- BODY -->
+  <div class="app-body">
+
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+      <div class="sidebar-section">OVERVIEW</div>
+      <button class="sidebar-item active" onclick="showPage('portfolio',null,this)">
+        <span class="si-icon">📊</span> Portfolio Summary
+      </button>
+      <button class="sidebar-item" onclick="showPage('analytics',null,this)">
+        <span class="si-icon">📈</span> Energy Analytics
+      </button>
+      <button class="sidebar-item" onclick="showPage('facility',null,this)">
+        <span class="si-icon">🏭</span> All Facilities
+      </button>
+
+      <div class="sidebar-section">AI INTELLIGENCE</div>
+      <button class="sidebar-item" onclick="showPage('copilot',null,this)">
+        <span class="si-icon">🤖</span> AI Copilot
+      </button>
+      <button class="sidebar-item" onclick="showPage('forecasts',null,this)">
+        <span class="si-icon">🔮</span> Forecasting
+      </button>
+      <button class="sidebar-item" onclick="showPage('optimizer',null,this)">
+        <span class="si-icon">⚙️</span> Optimizer
+      </button>
+      <button class="sidebar-item" onclick="showPage('twin',null,this)">
+        <span class="si-icon">🔷</span> Digital Twin
+      </button>
+
+      <div class="sidebar-section">SUSTAINABILITY</div>
+      <button class="sidebar-item" onclick="showPage('carbon',null,this)">
+        <span class="si-icon">🌱</span> Carbon & ESG
+      </button>
+
+      <div class="sidebar-section">OPERATIONS</div>
+      <button class="sidebar-item" onclick="showPage('alerts',null,this)">
+        <span class="si-icon">🔔</span> Alerts
+        <span class="si-badge">7</span>
+      </button>
+
+      <div style="margin-top:auto;padding-top:24px;border-top:1px solid var(--border);">
+        <div style="font-size:10px;color:var(--text3);padding:8px;">
+          AI MODEL STATUS<br/>
+          <span style="color:var(--green);">● Forecasting Active</span><br/>
+          <span style="color:var(--green);">● Anomaly Detector ON</span><br/>
+          <span style="color:var(--blue);">● Optimizer Queued</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- MAIN PAGES -->
+    <div class="main">
+
+      <!-- ═══════════════ PORTFOLIO PAGE ═══════════════ -->
+      <div class="page active" id="page-portfolio">
+        <div class="page-header">
+          <div class="page-title" id="org-title">🏭 ArcelorSteel Manufacturing — Portfolio Overview</div>
+          <div class="page-sub">Real-time energy intelligence · Last updated: <span id="lastUpdate"></span></div>
+        </div>
+
+        <!-- KPI STATS -->
+        <div class="grid grid-5" style="margin-bottom:16px;">
+          <div class="stat-card" style="--accent-color:var(--blue)">
+            <div class="sc-label">TOTAL CONSUMPTION MTD</div>
+            <div class="sc-value" id="kpi-consumption">48.2 GWh</div>
+            <div class="sc-change up">▲ 3.2% vs last month</div>
+            <div class="sc-icon" style="background:var(--blue-dim);color:var(--blue);">⚡</div>
+          </div>
+          <div class="stat-card" style="--accent-color:var(--orange)">
+            <div class="sc-label">TOTAL COST MTD</div>
+            <div class="sc-value" id="kpi-cost">$3.24M</div>
+            <div class="sc-change down">▼ 8.1% vs last month</div>
+            <div class="sc-icon" style="background:var(--orange-dim);color:var(--orange);">💰</div>
+          </div>
+          <div class="stat-card" style="--accent-color:var(--green)">
+            <div class="sc-label">AI SAVINGS REALIZED</div>
+            <div class="sc-value" id="kpi-savings">$412K</div>
+            <div class="sc-change up">▲ 12.4% vs last month</div>
+            <div class="sc-icon" style="background:var(--green-dim);color:var(--green);">📉</div>
+          </div>
+          <div class="stat-card" style="--accent-color:var(--purple)">
+            <div class="sc-label">CARBON EMISSIONS MTD</div>
+            <div class="sc-value" id="kpi-carbon">12,840 tCO₂</div>
+            <div class="sc-change down">▼ 6.3% YoY</div>
+            <div class="sc-icon" style="background:var(--purple-dim);color:var(--purple);">🌍</div>
+          </div>
+          <div class="stat-card" style="--accent-color:var(--yellow)">
+            <div class="sc-label">ANOMALIES DETECTED</div>
+            <div class="sc-value" id="kpi-anomalies">7</div>
+            <div class="sc-change up">▲ 2 new today</div>
+            <div class="sc-icon" style="background:var(--yellow-dim);color:var(--yellow);">⚠️</div>
+          </div>
+        </div>
+
+        <!-- CHARTS ROW -->
+        <div class="grid grid-2" style="margin-bottom:16px;">
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">⚡ ENERGY CONSUMPTION — 12 MONTHS</div>
+              <div class="card-action">Export CSV</div>
+            </div>
+            <div class="chart-wrap" style="height:220px;">
+              <canvas id="chartConsumption"></canvas>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">💰 COST TREND + AI FORECAST</div>
+              <span class="tag blue">94% Accuracy</span>
+            </div>
+            <div class="chart-wrap" style="height:220px;">
+              <canvas id="chartCost"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- BOTTOM ROW -->
+        <div class="grid grid-2" style="margin-bottom:16px;">
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">🎯 TOP AI RECOMMENDATIONS</div>
+              <span class="tag green">$1.2M potential</span>
+            </div>
+            <div class="insight-card" style="--left-color:var(--green)">
+              <div class="insight-type">TARIFF OPTIMIZATION</div>
+              <div class="insight-title">Switch to Time-of-Use Rate Schedule D</div>
+              <div class="insight-body">Your load profile shows 68% off-peak usage. Switching from flat rate saves $18,400/month automatically.</div>
+              <div class="insight-meta">
+                <div class="insight-saving">+$18,400/mo</div>
+                <span class="tag green">High Confidence</span>
+                <span class="tag blue">Auto-Apply</span>
+              </div>
+            </div>
+            <div class="insight-card" style="--left-color:var(--blue)">
+              <div class="insight-type">PEAK SHAVING</div>
+              <div class="insight-title">Shift HVAC pre-cooling to 2–4 AM window</div>
+              <div class="insight-body">Demand charge of $12.80/kW accounts for 31% of bill. Shifting 480 kW reduces peak by $6,144/month.</div>
+              <div class="insight-meta">
+                <div class="insight-saving">+$6,144/mo</div>
+                <span class="tag blue">Simulated</span>
+              </div>
+            </div>
+            <div class="insight-card" style="--left-color:var(--orange)">
+              <div class="insight-type">PROCUREMENT</div>
+              <div class="insight-title">Lock forward contracts now — prices trending up</div>
+              <div class="insight-body">AI model forecasts 14% price spike in Q2. Locking 30% of load at current $41.20/MWh saves $290K.</div>
+              <div class="insight-meta">
+                <div class="insight-saving">+$290K/yr</div>
+                <span class="tag orange">Act Within 48h</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">🏭 FACILITY PERFORMANCE MATRIX</div>
+              <div class="card-action">View All</div>
+            </div>
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>FACILITY</th>
+                  <th>kWh MTD</th>
+                  <th>COST</th>
+                  <th>EUI</th>
+                  <th>AI SCORE</th>
+                  <th>STATUS</th>
+                </tr>
+              </thead>
+              <tbody id="facilityTable">
+                <tr>
+                  <td style="color:var(--text)">Plant Alpha — OH</td>
+                  <td class="mono">18.4 GWh</td>
+                  <td class="mono">$1.24M</td>
+                  <td class="mono">142</td>
+                  <td><div style="display:flex;align-items:center;gap:8px;"><div class="progress" style="width:60px;"><div class="progress-bar" style="width:82%;background:var(--green);"></div></div><span style="font-size:11px;color:var(--green)">82</span></div></td>
+                  <td><span class="tag green">Optimal</span></td>
+                </tr>
+                <tr>
+                  <td style="color:var(--text)">Plant Beta — PA</td>
+                  <td class="mono">14.2 GWh</td>
+                  <td class="mono">$980K</td>
+                  <td class="mono">168</td>
+                  <td><div style="display:flex;align-items:center;gap:8px;"><div class="progress" style="width:60px;"><div class="progress-bar" style="width:64%;background:var(--yellow);"></div></div><span style="font-size:11px;color:var(--yellow)">64</span></div></td>
+                  <td><span class="tag yellow">Review</span></td>
+                </tr>
+                <tr>
+                  <td style="color:var(--text)">Plant Gamma — MI</td>
+                  <td class="mono">10.1 GWh</td>
+                  <td class="mono">$720K</td>
+                  <td class="mono">195</td>
+                  <td><div style="display:flex;align-items:center;gap:8px;"><div class="progress" style="width:60px;"><div class="progress-bar" style="width:41%;background:var(--red);"></div></div><span style="font-size:11px;color:var(--red)">41</span></div></td>
+                  <td><span class="tag red">Action Req.</span></td>
+                </tr>
+                <tr>
+                  <td style="color:var(--text)">HQ Office — IL</td>
+                  <td class="mono">3.2 GWh</td>
+                  <td class="mono">$198K</td>
+                  <td class="mono">88</td>
+                  <td><div style="display:flex;align-items:center;gap:8px;"><div class="progress" style="width:60px;"><div class="progress-bar" style="width:91%;background:var(--green);"></div></div><span style="font-size:11px;color:var(--green)">91</span></div></td>
+                  <td><span class="tag green">Excellent</span></td>
+                </tr>
+                <tr>
+                  <td style="color:var(--text)">R&D Center — IN</td>
+                  <td class="mono">2.3 GWh</td>
+                  <td class="mono">$142K</td>
+                  <td class="mono">112</td>
+                  <td><div style="display:flex;align-items:center;gap:8px;"><div class="progress" style="width:60px;"><div class="progress-bar" style="width:75%;background:var(--green);"></div></div><span style="font-size:11px;color:var(--green)">75</span></div></td>
+                  <td><span class="tag green">Good</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- LOAD PROFILE -->
+        <div class="card" style="margin-bottom:16px;">
+          <div class="card-header">
+            <div class="card-title">⏱ 24H LOAD PROFILE — ALL FACILITIES (kW)</div>
+            <div style="display:flex;gap:8px;">
+              <span class="tag blue">Real-time</span>
+              <span class="tag orange">Peak: 2 PM</span>
+              <span class="tag green">Off-peak window</span>
+            </div>
+          </div>
+          <div class="chart-wrap" style="height:180px;">
+            <canvas id="chartLoad"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══════════════ FACILITY PAGE ═══════════════ -->
+      <div class="page" id="page-facility">
+        <div class="page-header">
+          <div class="page-title">🏭 All Facilities</div>
+          <div class="page-sub">5 facilities monitored · AI scoring active on all meters</div>
+        </div>
+
+        <div class="grid grid-3">
+          <div class="facility-card" onclick="showPage('analytics')">
+            <div class="fc-header">
+              <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+                <div>
+                  <div class="fc-name">Plant Alpha</div>
+                  <div class="fc-loc">📍 Columbus, OH · Industrial</div>
+                </div>
+                <span class="tag green">Optimal</span>
+              </div>
+            </div>
+            <div class="fc-stats">
+              <div><div class="fc-stat-label">CONSUMPTION MTD</div><div class="fc-stat-val">18.4 GWh</div></div>
+              <div><div class="fc-stat-label">COST MTD</div><div class="fc-stat-val">$1.24M</div></div>
+              <div><div class="fc-stat-label">PEAK DEMAND</div><div class="fc-stat-val">8,420 kW</div></div>
+              <div><div class="fc-stat-label">AI SCORE</div><div class="fc-stat-val" style="color:var(--green)">82/100</div></div>
+            </div>
+            <div class="fc-footer">
+              <span class="tag blue">12 Meters</span>
+              <span style="font-size:11px;color:var(--text3)">Saving $18.4K/mo →</span>
+            </div>
+          </div>
+
+          <div class="facility-card" onclick="showPage('analytics')">
+            <div class="fc-header">
+              <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+                <div>
+                  <div class="fc-name">Plant Beta</div>
+                  <div class="fc-loc">📍 Pittsburgh, PA · Industrial</div>
+                </div>
+                <span class="tag yellow">Review</span>
+              </div>
+            </div>
+            <div class="fc-stats">
+              <div><div class="fc-stat-label">CONSUMPTION MTD</div><div class="fc-stat-val">14.2 GWh</div></div>
+              <div><div class="fc-stat-label">COST MTD</div><div class="fc-stat-val">$980K</div></div>
+              <div><div class="fc-stat-label">PEAK DEMAND</div><div class="fc-stat-val">6,840 kW</div></div>
+              <div><div class="fc-stat-label">AI SCORE</div><div class="fc-stat-val" style="color:var(--yellow)">64/100</div></div>
+            </div>
+            <div class="fc-footer">
+              <span class="tag yellow">Anomaly Detected</span>
+              <span style="font-size:11px;color:var(--red)">⚠ 3 alerts →</span>
+            </div>
+          </div>
+
+          <div class="facility-card" onclick="showPage('analytics')">
+            <div class="fc-header">
+              <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+                <div>
+                  <div class="fc-name">Plant Gamma</div>
+                  <div class="fc-loc">📍 Detroit, MI · Industrial</div>
+                </div>
+                <span class="tag red">Action Req.</span>
+              </div>
+            </div>
+            <div class="fc-stats">
+              <div><div class="fc-stat-label">CONSUMPTION MTD</div><div class="fc-stat-val">10.1 GWh</div></div>
+              <div><div class="fc-stat-label">COST MTD</div><div class="fc-stat-val">$720K</div></div>
+              <div><div class="fc-stat-label">PEAK DEMAND</div><div class="fc-stat-val">5,200 kW</div></div>
+              <div><div class="fc-stat-label">AI SCORE</div><div class="fc-stat-val" style="color:var(--red)">41/100</div></div>
+            </div>
+            <div class="fc-footer">
+              <span class="tag red">4 Critical Alerts</span>
+              <span style="font-size:11px;color:var(--text3)">$96K overrun →</span>
+            </div>
+          </div>
+
+          <div class="facility-card" onclick="showPage('analytics')">
+            <div class="fc-header">
+              <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+                <div>
+                  <div class="fc-name">HQ Office</div>
+                  <div class="fc-loc">📍 Chicago, IL · Commercial</div>
+                </div>
+                <span class="tag green">Excellent</span>
+              </div>
+            </div>
+            <div class="fc-stats">
+              <div><div class="fc-stat-label">CONSUMPTION MTD</div><div class="fc-stat-val">3.2 GWh</div></div>
+              <div><div class="fc-stat-label">COST MTD</div><div class="fc-stat-val">$198K</div></div>
+              <div><div class="fc-stat-label">PEAK DEMAND</div><div class="fc-stat-val">1,240 kW</div></div>
+              <div><div class="fc-stat-label">AI SCORE</div><div class="fc-stat-val" style="color:var(--green)">91/100</div></div>
+            </div>
+            <div class="fc-footer">
+              <span class="tag green">LEED Gold</span>
+              <span style="font-size:11px;color:var(--green)">100% renewable →</span>
+            </div>
+          </div>
+
+          <div class="facility-card" onclick="showPage('analytics')">
+            <div class="fc-header">
+              <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+                <div>
+                  <div class="fc-name">R&D Center</div>
+                  <div class="fc-loc">📍 Indianapolis, IN · Mixed</div>
+                </div>
+                <span class="tag green">Good</span>
+              </div>
+            </div>
+            <div class="fc-stats">
+              <div><div class="fc-stat-label">CONSUMPTION MTD</div><div class="fc-stat-val">2.3 GWh</div></div>
+              <div><div class="fc-stat-label">COST MTD</div><div class="fc-stat-val">$142K</div></div>
+              <div><div class="fc-stat-label">PEAK DEMAND</div><div class="fc-stat-val">980 kW</div></div>
+              <div><div class="fc-stat-label">AI SCORE</div><div class="fc-stat-val" style="color:var(--green)">75/100</div></div>
+            </div>
+            <div class="fc-footer">
+              <span class="tag blue">4 Meters</span>
+              <span style="font-size:11px;color:var(--text3)">Solar 32% offset →</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══════════════ ANALYTICS PAGE ═══════════════ -->
+      <div class="page" id="page-analytics">
+        <div class="page-header">
+          <div class="page-title">📈 Energy Analytics — Plant Alpha, OH</div>
+          <div class="page-sub">Detailed consumption, cost breakdown, load profiling, and billing intelligence</div>
+        </div>
+
+        <div class="grid grid-4" style="margin-bottom:16px;">
+          <div class="stat-card" style="--accent-color:var(--blue)">
+            <div class="sc-label">AVG DAILY kWh</div>
+            <div class="sc-value">61,320</div>
+            <div class="sc-change down">▼ 4.2% vs baseline</div>
+          </div>
+          <div class="stat-card" style="--accent-color:var(--orange)">
+            <div class="sc-label">PEAK DEMAND</div>
+            <div class="sc-value">8,420 kW</div>
+            <div class="sc-change up">▲ 1.8% vs last mo</div>
+          </div>
+          <div class="stat-card" style="--accent-color:var(--green)">
+            <div class="sc-label">LOAD FACTOR</div>
+            <div class="sc-value">71.4%</div>
+            <div class="sc-change up">▲ Good (target 75%)</div>
+          </div>
+          <div class="stat-card" style="--accent-color:var(--yellow)">
+            <div class="sc-label">$/kWh BLENDED</div>
+            <div class="sc-value">$0.0674</div>
+            <div class="sc-change down">▼ 8.1% vs last yr</div>
+          </div>
+        </div>
+
+        <div class="grid grid-2" style="margin-bottom:16px;">
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">📊 HOURLY INTERVAL DATA — LAST 7 DAYS</div>
+              <div class="card-action">Download</div>
+            </div>
+            <div class="chart-wrap" style="height:200px;">
+              <canvas id="chartInterval"></canvas>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">💡 COST BREAKDOWN BY COMPONENT</div>
+            </div>
+            <div style="display:flex;gap:20px;align-items:center;">
+              <div class="chart-wrap" style="height:180px;width:180px;flex-shrink:0;">
+                <canvas id="chartPie"></canvas>
+              </div>
+              <div style="flex:1;">
+                <div style="margin-bottom:12px;" id="pieLabels"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">🔍 ANOMALY DETECTION — ISOLATION FOREST + AUTOENCODER</div>
+            <span class="tag red">3 Anomalies Found</span>
+          </div>
+          <div class="chart-wrap" style="height:180px;">
+            <canvas id="chartAnomaly"></canvas>
+          </div>
+          <div style="margin-top:16px;display:flex;gap:12px;flex-wrap:wrap;">
+            <div class="insight-card" style="flex:1;min-width:200px;--left-color:var(--red)">
+              <div class="insight-type">ANOMALY · HIGH SEVERITY</div>
+              <div class="insight-title">Off-hours consumption spike · Jan 14, 2:17 AM</div>
+              <div class="insight-body">480% above baseline. Probable cause: HVAC control fault or unauthorized equipment. Estimated waste: $2,840.</div>
+            </div>
+            <div class="insight-card" style="flex:1;min-width:200px;--left-color:var(--orange)">
+              <div class="insight-type">ANOMALY · MEDIUM</div>
+              <div class="insight-title">Demand ratchet breach · Jan 22</div>
+              <div class="insight-body">Peak hit 8,800 kW for 22 minutes triggering $3,200 demand charge. AI recommends load shed protocol.</div>
+            </div>
+            <div class="insight-card" style="flex:1;min-width:200px;--left-color:var(--yellow)">
+              <div class="insight-type">ANOMALY · LOW</div>
+              <div class="insight-title">Power factor degradation detected</div>
+              <div class="insight-body">PF dropped to 0.82 on Jan 28. Capacitor bank check recommended. Potential penalty: $1,400/month.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══════════════ AI COPILOT PAGE ═══════════════ -->
+      <div class="page" id="page-copilot">
+        <div class="page-header">
+          <div class="page-title">🤖 AI Energy Copilot</div>
+          <div class="page-sub">Natural language interface powered by LLM + RAG · Ask anything about your energy data</div>
+        </div>
+
+        <div class="grid grid-2" style="height:calc(100vh - 200px);min-height:500px;gap:16px;">
+          <div class="card" style="display:flex;flex-direction:column;height:100%;">
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--border);">
+              <div style="width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,var(--blue2),#6366f1);display:flex;align-items:center;justify-content:center;font-size:18px;">🤖</div>
+              <div>
+                <div style="font-family:'Syne',sans-serif;font-weight:700;color:#fff;">NexusGrid AI</div>
+                <div style="font-size:11px;color:var(--green);">● Online · Energy context loaded</div>
+              </div>
+            </div>
+
+            <div class="copilot-messages" id="copilotMessages">
+              <div class="msg">
+                <div class="msg-avatar">🤖</div>
+                <div class="msg-bubble">
+                  Hello! I'm your NexusGrid AI Energy Copilot. I have full context on your portfolio — <span class="stat-inline">48.2 GWh</span> consumed, <span class="stat-inline">$3.24M</span> spent this month across <span class="stat-inline">5 facilities</span>.<br/><br/>
+                  I can analyze costs, explain anomalies, forecast demand, optimize tariffs, and build your sustainability narrative. What would you like to explore?
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <div class="copilot-suggestions" id="suggestions">
+                <div class="suggestion-chip" onclick="sendCopilotMessage('Why did energy costs increase last month?')">Why did costs increase?</div>
+                <div class="suggestion-chip" onclick="sendCopilotMessage('How can I reduce costs by 15%?')">Reduce costs by 15%</div>
+                <div class="suggestion-chip" onclick="sendCopilotMessage('What is my carbon footprint trend?')">Carbon footprint trend</div>
+                <div class="suggestion-chip" onclick="sendCopilotMessage('Which facility is least efficient?')">Least efficient facility</div>
+                <div class="suggestion-chip" onclick="sendCopilotMessage('Should I lock forward energy contracts now?')">Forward contracts advice</div>
+              </div>
+              <div class="copilot-input-row">
+                <input class="copilot-input" id="copilotInput" placeholder="Ask about your energy data..." onkeydown="if(event.key==='Enter')sendCopilot()"/>
+                <button class="copilot-send" onclick="sendCopilot()">↑</button>
+              </div>
+            </div>
+          </div>
+
+          <div style="display:flex;flex-direction:column;gap:16px;">
+            <div class="card">
+              <div class="card-header">
+                <div class="card-title">🧠 AUTONOMOUS INSIGHTS — TODAY</div>
+                <span class="tag purple">AI Generated</span>
+              </div>
+              <div id="autoInsights">
+                <div class="insight-card" style="--left-color:var(--red)">
+                  <div class="insight-type">CRITICAL ALERT</div>
+                  <div class="insight-title">Plant Gamma 94th percentile demand spike</div>
+                  <div class="insight-body">AI detected a 94th-percentile demand event at 9:42 AM. Root cause: compressor cycling fault + simultaneous shift start. Estimated cost impact: $8,400.</div>
+                  <div class="insight-meta"><span class="tag red">Auto-detected · 2h ago</span></div>
+                </div>
+                <div class="insight-card" style="--left-color:var(--green)">
+                  <div class="insight-type">OPPORTUNITY</div>
+                  <div class="insight-title">Demand response event tomorrow 2–6 PM</div>
+                  <div class="insight-body">Grid operator signaled DR event. Curtailing 1,200 kW earns $14,400 in incentive payments. AI will auto-execute load shed if you approve.</div>
+                  <div class="insight-meta"><div class="insight-saving">+$14,400</div><span class="tag green">Approve?</span></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-header">
+                <div class="card-title">📋 EXECUTIVE SUMMARY — AI GENERATED</div>
+                <button class="btn btn-sm btn-ghost">Export PDF</button>
+              </div>
+              <div style="font-size:13px;color:var(--text2);line-height:1.8;background:var(--surface2);border-radius:8px;padding:14px;border:1px solid var(--border);">
+                <strong style="color:var(--blue);">Portfolio Performance — March 2026</strong><br/>
+                Energy spend is <strong style="color:var(--green);">8.1% below budget</strong> driven by AI-optimized tariff selection saving $412K. Three anomalies were auto-detected and remediated.
+                Carbon intensity improved <strong style="color:var(--green);">6.3% YoY</strong>. Plant Gamma requires immediate attention — inefficiency score of 41/100 represents <strong style="color:var(--red);">$96K/month overrun</strong>.
+                Q2 procurement recommendation: lock 30% of load at current rates. Forecast accuracy: <strong style="color:var(--blue);">94.2%</strong> on 30-day horizon.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══════════════ FORECASTS PAGE ═══════════════ -->
+      <div class="page" id="page-forecasts">
+        <div class="page-header">
+          <div class="page-title">🔮 AI Forecasting Engine</div>
+          <div class="page-sub">LSTM + Prophet models · 7 / 30 / 90-day horizons · 94.2% accuracy</div>
+        </div>
+
+        <div class="grid grid-3" style="margin-bottom:16px;">
+          <div class="stat-card" style="--accent-color:var(--blue)">
+            <div class="sc-label">7-DAY FORECAST (kWh)</div>
+            <div class="sc-value">14.2M</div>
+            <div class="sc-change up">▲ 4.1% vs same period LY</div>
+          </div>
+          <div class="stat-card" style="--accent-color:var(--purple)">
+            <div class="sc-label">30-DAY FORECAST (COST)</div>
+            <div class="sc-value">$3.48M</div>
+            <div class="sc-change up">▲ 7.4% (price increase)</div>
+          </div>
+          <div class="stat-card" style="--accent-color:var(--green)">
+            <div class="sc-label">90-DAY COST SAVINGS</div>
+            <div class="sc-value">$1.24M</div>
+            <div class="sc-change up">If all AI actions taken</div>
+          </div>
+        </div>
+
+        <div class="card" style="margin-bottom:16px;">
+          <div class="card-header">
+            <div class="card-title">📊 MULTI-HORIZON CONSUMPTION FORECAST</div>
+            <div style="display:flex;gap:8px;">
+              <span class="tag blue">Actual</span>
+              <span class="tag purple">7-Day Forecast</span>
+              <span class="tag green">30-Day Forecast</span>
+              <span class="tag yellow">90-Day Forecast</span>
+            </div>
+          </div>
+          <div class="chart-wrap" style="height:260px;">
+            <canvas id="chartForecast"></canvas>
+          </div>
+        </div>
+
+        <div class="grid grid-2">
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">🌡 WEATHER-ADJUSTED FORECAST DRIVERS</div>
+            </div>
+            <table class="data-table">
+              <thead><tr><th>DRIVER</th><th>IMPACT</th><th>CONFIDENCE</th></tr></thead>
+              <tbody>
+                <tr><td>Avg Temperature +4°F</td><td style="color:var(--orange)">+8.2% kWh</td><td><span class="tag green">92%</span></td></tr>
+                <tr><td>Production Schedule +12%</td><td style="color:var(--orange)">+11.4% kWh</td><td><span class="tag green">96%</span></td></tr>
+                <tr><td>Weekend shutdowns (3)</td><td style="color:var(--green)">-6.8% kWh</td><td><span class="tag green">99%</span></td></tr>
+                <tr><td>HVAC efficiency project</td><td style="color:var(--green)">-3.1% kWh</td><td><span class="tag blue">78%</span></td></tr>
+                <tr><td>Energy price trend</td><td style="color:var(--orange)">+14% cost</td><td><span class="tag blue">81%</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">🎯 PEAK DEMAND PREDICTION</div>
+              <span class="tag orange">Critical for billing</span>
+            </div>
+            <div class="chart-wrap" style="height:180px;">
+              <canvas id="chartPeak"></canvas>
+            </div>
+            <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap;">
+              <div style="flex:1;min-width:130px;background:var(--surface2);border-radius:8px;padding:10px;">
+                <div style="font-size:10px;color:var(--text3);">PREDICTED PEAK</div>
+                <div style="font-family:'Syne',sans-serif;font-size:20px;color:var(--orange);">8,840 kW</div>
+                <div style="font-size:11px;color:var(--text3);">Mar 31, ~2 PM</div>
+              </div>
+              <div style="flex:1;min-width:130px;background:var(--surface2);border-radius:8px;padding:10px;">
+                <div style="font-size:10px;color:var(--text3);">DEMAND CHARGE RISK</div>
+                <div style="font-family:'Syne',sans-serif;font-size:20px;color:var(--red);">$5,200</div>
+                <div style="font-size:11px;color:var(--text3);">if peak hit</div>
+              </div>
+              <div style="flex:1;min-width:130px;background:var(--surface2);border-radius:8px;padding:10px;">
+                <div style="font-size:10px;color:var(--text3);">AI RECOMMENDATION</div>
+                <div style="font-family:'Syne',sans-serif;font-size:14px;color:var(--green);margin-top:4px;">Pre-shed 600 kW at 1:30 PM</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══════════════ OPTIMIZER PAGE ═══════════════ -->
+      <div class="page" id="page-optimizer">
+        <div class="page-header">
+          <div class="page-title">⚙️ Energy Optimization Engine</div>
+          <div class="page-sub">Linear programming + RL-based load optimization · Savings Simulator</div>
+        </div>
+
+        <div class="grid grid-2" style="margin-bottom:16px;">
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">💡 SAVINGS SIMULATOR</div>
+              <span class="tag green">LP Optimized</span>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:16px;">
+              <div>
+                <div class="twin-label">PEAK LOAD SHED TARGET (kW)</div>
+                <div style="display:flex;align-items:center;gap:12px;">
+                  <input type="range" class="sim-slider" min="0" max="2000" value="600" id="sliderShed" oninput="updateSimulator()"/>
+                  <span class="mono" id="valShed" style="color:var(--blue);min-width:60px;">600 kW</span>
+                </div>
+              </div>
+              <div>
+                <div class="twin-label">TARIFF OPTIMIZATION STRATEGY</div>
+                <select class="sim-input" id="selTariff" onchange="updateSimulator()">
+                  <option value="1">Current: Flat Rate $0.0674/kWh</option>
+                  <option value="2">Option A: TOU Rate D ($0.042 off-peak)</option>
+                  <option value="3">Option B: Real-Time Pricing (Dynamic)</option>
+                  <option value="4">Option C: Demand Response Program</option>
+                </select>
+              </div>
+              <div>
+                <div class="twin-label">RENEWABLE % TARGET</div>
+                <div style="display:flex;align-items:center;gap:12px;">
+                  <input type="range" class="sim-slider" min="0" max="100" value="30" id="sliderRenew" oninput="updateSimulator()"/>
+                  <span class="mono" id="valRenew" style="color:var(--green);min-width:40px;">30%</span>
+                </div>
+              </div>
+              <div>
+                <div class="twin-label">DEMAND RESPONSE PARTICIPATION</div>
+                <select class="sim-input" id="selDR" onchange="updateSimulator()">
+                  <option value="0">Not enrolled</option>
+                  <option value="1">Basic (1 event/month)</option>
+                  <option value="2" selected>Standard (4 events/month)</option>
+                  <option value="3">Premium (Daily availability)</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">🎯 PROJECTED ANNUAL SAVINGS</div>
+            </div>
+            <div class="sim-result" style="margin-bottom:16px;">
+              <div class="sim-result-val" id="simSavings">$847,200</div>
+              <div class="sim-result-label">Estimated Annual Savings vs Current Baseline</div>
+            </div>
+            <div id="simBreakdown">
+              <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);">
+                <span style="color:var(--text2);font-size:13px;">Peak shaving (LP)</span>
+                <span class="mono" style="color:var(--green);" id="sav1">$183,600</span>
+              </div>
+              <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);">
+                <span style="color:var(--text2);font-size:13px;">Tariff optimization</span>
+                <span class="mono" style="color:var(--green);" id="sav2">$412,000</span>
+              </div>
+              <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);">
+                <span style="color:var(--text2);font-size:13px;">Demand response</span>
+                <span class="mono" style="color:var(--green);" id="sav3">$172,800</span>
+              </div>
+              <div style="display:flex;justify-content:space-between;padding:8px 0;">
+                <span style="color:var(--text2);font-size:13px;">Renewable offset</span>
+                <span class="mono" style="color:var(--green);" id="sav4">$78,800</span>
+              </div>
+            </div>
+
+            <div style="margin-top:16px;">
+              <div class="chart-wrap" style="height:140px;">
+                <canvas id="chartSavings"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">⚡ LOAD SCHEDULING OPTIMIZER — REINFORCEMENT LEARNING</div>
+            <span class="tag purple">RL Agent Active</span>
+          </div>
+          <div class="chart-wrap" style="height:200px;">
+            <canvas id="chartOptLoad"></canvas>
+          </div>
+          <div style="margin-top:12px;display:flex;gap:16px;flex-wrap:wrap;">
+            <div class="insight-card" style="flex:1;min-width:200px;--left-color:var(--purple)">
+              <div class="insight-type">RL AGENT RECOMMENDATION</div>
+              <div class="insight-title">Shift electric arc furnace to 11 PM — 3 AM slot</div>
+              <div class="insight-body">RL model ran 10,000 simulations. Optimal shift captures $0.026/kWh rate differential saving $42K/month. CO₂ intensity also 18% lower in this window.</div>
+              <div class="insight-meta"><div class="insight-saving">+$42K/mo</div><span class="tag purple">RL Optimized</span></div>
+            </div>
+            <div class="insight-card" style="flex:1;min-width:200px;--left-color:var(--blue)">
+              <div class="insight-type">PROCUREMENT TIMING</div>
+              <div class="insight-title">AI: Buy 25 MW forward contract by April 5</div>
+              <div class="insight-body">Price forecast model shows 14% increase Q2. Locking at current $41.20/MWh vs projected $47/MWh saves $290K annually on your baseload.</div>
+              <div class="insight-meta"><div class="insight-saving">+$290K/yr</div><span class="tag orange">⏰ 48h window</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══════════════ CARBON PAGE ═══════════════ -->
+      <div class="page" id="page-carbon">
+        <div class="page-header">
+          <div class="page-title">🌱 Sustainability & Carbon Intelligence</div>
+          <div class="page-sub">Scope 1 · Scope 2 · Scope 3 · ESG reporting · Net-zero pathway · GHG Protocol aligned</div>
+        </div>
+
+        <div class="grid grid-4" style="margin-bottom:16px;">
+          <div class="stat-card" style="--accent-color:var(--green)">
+            <div class="sc-label">SCOPE 1 EMISSIONS MTD</div>
+            <div class="sc-value">3,840 tCO₂</div>
+            <div class="sc-change down">▼ 4.1% YoY</div>
+          </div>
+          <div class="stat-card" style="--accent-color:var(--blue)">
+            <div class="sc-label">SCOPE 2 EMISSIONS MTD</div>
+            <div class="sc-value">9,000 tCO₂</div>
+            <div class="sc-change down">▼ 7.2% YoY</div>
+          </div>
+          <div class="stat-card" style="--accent-color:var(--purple)">
+            <div class="sc-label">CARBON INTENSITY</div>
+            <div class="sc-value">0.266 tCO₂/MWh</div>
+            <div class="sc-change down">▼ 6.3% YoY</div>
+          </div>
+          <div class="stat-card" style="--accent-color:var(--yellow)">
+            <div class="sc-label">ESG SCORE</div>
+            <div class="sc-value">74/100</div>
+            <div class="sc-change up">▲ B+ Rating</div>
+          </div>
+        </div>
+
+        <div class="grid grid-2" style="margin-bottom:16px;">
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">🌍 EMISSIONS TREND — ALL SCOPES</div>
+              <span class="tag green">GHG Protocol</span>
+            </div>
+            <div class="chart-wrap" style="height:220px;">
+              <canvas id="chartCarbon"></canvas>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">🎯 NET-ZERO PATHWAY SIMULATION</div>
+              <span class="tag blue">SBTi Aligned</span>
+            </div>
+            <div class="chart-wrap" style="height:220px;">
+              <canvas id="chartNetZero"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid grid-3">
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">☀️ RENEWABLE ENERGY</div>
+            </div>
+            <div style="text-align:center;margin:12px 0;">
+              <canvas id="chartRenew" width="140" height="140" style="max-width:140px;"></canvas>
+            </div>
+            <table class="data-table">
+              <tr><td style="color:var(--text2)">Solar (onsite)</td><td class="mono" style="color:var(--yellow)">12%</td></tr>
+              <tr><td style="color:var(--text2)">Wind PPA</td><td class="mono" style="color:var(--blue)">18%</td></tr>
+              <tr><td style="color:var(--text2)">RECs purchased</td><td class="mono" style="color:var(--green)">8%</td></tr>
+              <tr><td style="color:var(--text2)">Grid (fossil)</td><td class="mono" style="color:var(--text3)">62%</td></tr>
+            </table>
+          </div>
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">📊 CARBON-AWARE SCHEDULING</div>
+              <span class="tag green">Innovation Feature</span>
+            </div>
+            <div style="font-size:13px;color:var(--text2);margin-bottom:12px;">
+              AI shifts deferrable loads to low carbon-intensity windows, reducing Scope 2 emissions without changing output.
+            </div>
+            <div style="background:var(--surface2);border-radius:8px;padding:12px;border:1px solid var(--border);">
+              <div style="display:flex;justify-content:space-between;margin-bottom:8px;">
+                <span style="font-size:11px;color:var(--text3)">Grid Carbon Intensity Now</span>
+                <span class="mono" style="color:var(--orange);">0.384 tCO₂/MWh</span>
+              </div>
+              <div style="display:flex;justify-content:space-between;margin-bottom:8px;">
+                <span style="font-size:11px;color:var(--text3)">Tonight 1–4 AM (predicted)</span>
+                <span class="mono" style="color:var(--green);">0.198 tCO₂/MWh</span>
+              </div>
+              <div style="display:flex;justify-content:space-between;">
+                <span style="font-size:11px;color:var(--text3)">AI shift savings</span>
+                <span class="mono" style="color:var(--green);">-48% carbon · -$8,400/mo</span>
+              </div>
+            </div>
+            <div class="chart-wrap" style="height:100px;margin-top:12px;">
+              <canvas id="chartCI"></canvas>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">📋 ESG REPORT BUILDER</div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:8px;">
+              <div style="display:flex;justify-content:space-between;align-items:center;padding:10px;background:var(--surface2);border-radius:8px;">
+                <span style="font-size:13px;color:var(--text);">CDP Climate Response</span>
+                <span class="tag green">Ready</span>
+              </div>
+              <div style="display:flex;justify-content:space-between;align-items:center;padding:10px;background:var(--surface2);border-radius:8px;">
+                <span style="font-size:13px;color:var(--text);">TCFD Report</span>
+                <span class="tag green">Ready</span>
+              </div>
+              <div style="display:flex;justify-content:space-between;align-items:center;padding:10px;background:var(--surface2);border-radius:8px;">
+                <span style="font-size:13px;color:var(--text);">GRI Energy Disclosure</span>
+                <span class="tag blue">In Progress</span>
+              </div>
+              <div style="display:flex;justify-content:space-between;align-items:center;padding:10px;background:var(--surface2);border-radius:8px;">
+                <span style="font-size:13px;color:var(--text);">SEC Climate Rule</span>
+                <span class="tag yellow">Pending Data</span>
+              </div>
+              <button class="btn btn-green" style="width:100%;justify-content:center;margin-top:8px;">
+                📊 Generate ESG Package
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══════════════ DIGITAL TWIN PAGE ═══════════════ -->
+      <div class="page" id="page-twin">
+        <div class="page-header">
+          <div class="page-title">🔷 Digital Twin — Plant Alpha Facility Model</div>
+          <div class="page-sub">Virtual energy model · Scenario simulation · What-if analysis · Real-time state sync</div>
+        </div>
+
+        <div class="grid grid-2" style="margin-bottom:16px;">
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">🏭 VIRTUAL FACILITY STATE</div>
+              <span class="tag blue">Live Sync</span>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px;">
+              <div style="background:var(--surface2);border-radius:8px;padding:12px;">
+                <div style="font-size:10px;color:var(--text3);margin-bottom:4px;">HVAC SYSTEM</div>
+                <div style="font-family:'Syne',sans-serif;font-size:20px;color:var(--blue);">2,840 kW</div>
+                <div class="progress" style="margin-top:6px;"><div class="progress-bar" style="width:68%;background:var(--blue);"></div></div>
+                <div style="font-size:10px;color:var(--text3);margin-top:4px;">68% capacity</div>
+              </div>
+              <div style="background:var(--surface2);border-radius:8px;padding:12px;">
+                <div style="font-size:10px;color:var(--text3);margin-bottom:4px;">PRODUCTION LINES</div>
+                <div style="font-family:'Syne',sans-serif;font-size:20px;color:var(--orange);">4,120 kW</div>
+                <div class="progress" style="margin-top:6px;"><div class="progress-bar" style="width:82%;background:var(--orange);"></div></div>
+                <div style="font-size:10px;color:var(--text3);margin-top:4px;">82% capacity</div>
+              </div>
+              <div style="background:var(--surface2);border-radius:8px;padding:12px;">
+                <div style="font-size:10px;color:var(--text3);margin-bottom:4px;">LIGHTING</div>
+                <div style="font-family:'Syne',sans-serif;font-size:20px;color:var(--yellow);">640 kW</div>
+                <div class="progress" style="margin-top:6px;"><div class="progress-bar" style="width:74%;background:var(--yellow);"></div></div>
+                <div style="font-size:10px;color:var(--text3);margin-top:4px;">74% of baseline</div>
+              </div>
+              <div style="background:var(--surface2);border-radius:8px;padding:12px;">
+                <div style="font-size:10px;color:var(--text3);margin-bottom:4px;">COMPRESSED AIR</div>
+                <div style="font-family:'Syne',sans-serif;font-size:20px;color:var(--green);">820 kW</div>
+                <div class="progress" style="margin-top:6px;"><div class="progress-bar" style="width:55%;background:var(--green);"></div></div>
+                <div style="font-size:10px;color:var(--text3);margin-top:4px;">55% utilization</div>
+              </div>
+            </div>
+            <div style="text-align:center;font-size:11px;color:var(--text3);">
+              Total: <span style="color:var(--blue);font-weight:600;">8,420 kW</span> · 12 meters · Last sync 14s ago
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">🧪 SCENARIO SIMULATOR</div>
+              <span class="tag purple">What-If Analysis</span>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:14px;">
+              <div class="twin-control">
+                <div class="twin-label">PRODUCTION SCHEDULE CHANGE (%)</div>
+                <div style="display:flex;align-items:center;gap:12px;">
+                  <input type="range" class="twin-slider" min="-30" max="30" value="0" id="twinProd" oninput="updateTwin()"/>
+                  <span class="mono" id="twinProdVal" style="color:var(--blue);min-width:50px;">0%</span>
+                </div>
+              </div>
+              <div class="twin-control">
+                <div class="twin-label">HVAC SETPOINT CHANGE (°F)</div>
+                <div style="display:flex;align-items:center;gap:12px;">
+                  <input type="range" class="twin-slider" min="-5" max="5" value="0" id="twinHVAC" oninput="updateTwin()"/>
+                  <span class="mono" id="twinHVACVal" style="color:var(--orange);min-width:50px;">+0°F</span>
+                </div>
+              </div>
+              <div class="twin-control">
+                <div class="twin-label">SOLAR PANEL COVERAGE (%)</div>
+                <div style="display:flex;align-items:center;gap:12px;">
+                  <input type="range" class="twin-slider" min="0" max="100" value="12" id="twinSolar" oninput="updateTwin()"/>
+                  <span class="mono" id="twinSolarVal" style="color:var(--yellow);min-width:40px;">12%</span>
+                </div>
+              </div>
+
+              <div id="twinResults" style="background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:16px;">
+                <div style="font-size:11px;color:var(--text3);margin-bottom:12px;letter-spacing:1px;">SIMULATED OUTCOME</div>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+                  <div>
+                    <div style="font-size:10px;color:var(--text3);">MONTHLY COST DELTA</div>
+                    <div style="font-family:'Syne',sans-serif;font-size:22px;color:var(--green);" id="twinCostDelta">$0</div>
+                  </div>
+                  <div>
+                    <div style="font-size:10px;color:var(--text3);">CARBON DELTA</div>
+                    <div style="font-family:'Syne',sans-serif;font-size:22px;color:var(--green);" id="twinCarbonDelta">0 tCO₂</div>
+                  </div>
+                  <div>
+                    <div style="font-size:10px;color:var(--text3);">DEMAND CHANGE</div>
+                    <div style="font-family:'Syne',sans-serif;font-size:22px;color:var(--blue);" id="twinDemandDelta">0 kW</div>
+                  </div>
+                  <div>
+                    <div style="font-size:10px;color:var(--text3);">PAYBACK PERIOD</div>
+                    <div style="font-family:'Syne',sans-serif;font-size:22px;color:var(--purple);" id="twinPayback">—</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">📊 DIGITAL TWIN — REAL vs SIMULATED LOAD</div>
+          </div>
+          <div class="chart-wrap" style="height:200px;">
+            <canvas id="chartTwin"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══════════════ ALERTS PAGE ═══════════════ -->
+      <div class="page" id="page-alerts">
+        <div class="page-header">
+          <div class="page-title">🔔 Alert Center</div>
+          <div class="page-sub">AI-generated alerts · Real-time monitoring · 7 active alerts across portfolio</div>
+        </div>
+
+        <div class="grid grid-3" style="margin-bottom:16px;">
+          <div class="stat-card" style="--accent-color:var(--red)">
+            <div class="sc-label">CRITICAL</div><div class="sc-value" style="color:var(--red)">3</div>
+          </div>
+          <div class="stat-card" style="--accent-color:var(--orange)">
+            <div class="sc-label">WARNING</div><div class="sc-value" style="color:var(--orange)">2</div>
+          </div>
+          <div class="stat-card" style="--accent-color:var(--blue)">
+            <div class="sc-label">INFO / OPPORTUNITY</div><div class="sc-value" style="color:var(--blue)">2</div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div id="alertsList">
+            <div class="alert-item">
+              <div class="alert-dot" style="background:var(--red);box-shadow:0 0 8px var(--red);"></div>
+              <div class="alert-content">
+                <div class="alert-title">🔴 Plant Gamma: Demand spike 94th percentile — $8,400 impact</div>
+                <div class="alert-meta">Plant Gamma · Detroit, MI · 2h ago · Anomaly Detection (Isolation Forest)</div>
+              </div>
+              <span class="tag red">CRITICAL</span>
+            </div>
+            <div class="alert-item">
+              <div class="alert-dot" style="background:var(--red);"></div>
+              <div class="alert-content">
+                <div class="alert-title">🔴 Plant Beta: Off-hours consumption 480% above baseline</div>
+                <div class="alert-meta">Plant Beta · Pittsburgh, PA · Jan 14 2:17 AM · Statistical Process Control</div>
+              </div>
+              <span class="tag red">CRITICAL</span>
+            </div>
+            <div class="alert-item">
+              <div class="alert-dot" style="background:var(--red);"></div>
+              <div class="alert-content">
+                <div class="alert-title">🔴 Plant Gamma: 4 consecutive billing errors detected — $14,200 overbilling</div>
+                <div class="alert-meta">Plant Gamma · Billing Intelligence Engine · Today · Auto-verified vs tariff schedule</div>
+              </div>
+              <span class="tag red">CRITICAL</span>
+            </div>
+            <div class="alert-item">
+              <div class="alert-dot" style="background:var(--orange);"></div>
+              <div class="alert-content">
+                <div class="alert-title">⚠️ Plant Beta: Power factor degraded to 0.82 — penalty risk $1,400/mo</div>
+                <div class="alert-meta">Plant Beta · Meter M-07 · Power quality monitoring · 6h ago</div>
+              </div>
+              <span class="tag orange">WARNING</span>
+            </div>
+            <div class="alert-item">
+              <div class="alert-dot" style="background:var(--orange);"></div>
+              <div class="alert-content">
+                <div class="alert-title">⚠️ Energy price forecast: +14% Q2 spike predicted — procurement window open</div>
+                <div class="alert-meta">Market Intelligence · All Facilities · LSTM price model · Confidence: 81%</div>
+              </div>
+              <span class="tag orange">WARNING</span>
+            </div>
+            <div class="alert-item">
+              <div class="alert-dot" style="background:var(--blue);"></div>
+              <div class="alert-content">
+                <div class="alert-title">💡 Demand Response event tomorrow 2–6 PM — $14,400 incentive available</div>
+                <div class="alert-meta">Grid Operator · PJM · All Ohio facilities · Action required by 8 AM</div>
+              </div>
+              <span class="tag blue">OPPORTUNITY</span>
+            </div>
+            <div class="alert-item">
+              <div class="alert-dot" style="background:var(--blue);"></div>
+              <div class="alert-content">
+                <div class="alert-title">💡 HQ Office: 100% renewable target achievable by adding 8% more RECs</div>
+                <div class="alert-meta">Sustainability Engine · HQ Chicago, IL · Carbon-aware optimizer · Today</div>
+              </div>
+              <span class="tag blue">OPPORTUNITY</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /main -->
+  </div><!-- /app-body -->
+
+  <!-- FOOTER -->
+  <div style="background:var(--bg2);border-top:1px solid var(--border);padding:8px 20px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;">
+    <div style="font-size:11px;color:var(--text3);">
+      © 2026 Mandeep Sharma. All rights reserved. · NexusGrid AI-Powered Energy Intelligence Platform
+    </div>
+    <div style="display:flex;gap:16px;font-size:11px;color:var(--text3);">
+      <span>v2.0.0</span>
+      <span>·</span>
+      <span style="color:var(--green);">● API Healthy</span>
+      <span>·</span>
+      <span>AI Models: Active</span>
+    </div>
+  </div>
+</div>
+
+<script>
+// ══════════════════════════════════════════════════
+// DATA & STATE
+// ══════════════════════════════════════════════════
+const ORG_DATA = {
+  mfg:      { name:'🏭 ArcelorSteel Manufacturing', consumption:'48.2 GWh', cost:'$3.24M', savings:'$412K', carbon:'12,840 tCO₂', anomalies:'7' },
+  retail:   { name:'🛒 MegaMart Retail Chain',       consumption:'32.8 GWh', cost:'$2.18M', savings:'$284K', carbon:'8,720 tCO₂',  anomalies:'4' },
+  cre:      { name:'🏢 PrimePlex Commercial RE',     consumption:'18.4 GWh', cost:'$1.42M', savings:'$198K', carbon:'4,900 tCO₂',  anomalies:'2' },
+  logistics: { name:'🚛 SwiftLogix Warehouses',      consumption:'24.1 GWh', cost:'$1.84M', savings:'$321K', carbon:'6,420 tCO₂',  anomalies:'5' },
+  dc:       { name:'💻 Vertex Data Centers',         consumption:'98.4 GWh', cost:'$7.24M', savings:'$840K', carbon:'26,200 tCO₂', anomalies:'3' },
+};
+
+const MONTHS = ['Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec','Jan','Feb','Mar'];
+const HOURS  = Array.from({length:24}, (_,i)=>`${i}:00`);
+
+function rnd(min,max){return Math.random()*(max-min)+min;}
+function arr(n,min,max){return Array.from({length:n},()=>Math.round(rnd(min,max)));}
+
+// Consumption data with seasonality
+const consumptionData = [38,36,40,44,50,54,56,52,48,48,44,48];
+// Cost data
+const costData = [2.4,2.28,2.52,2.76,3.1,3.3,3.44,3.18,2.96,3.0,2.74,3.24];
+// Forecast continuation
+const forecastCost = [null,null,null,null,null,null,null,null,null,null,null,3.24,3.48,3.62,3.41];
+const forecastMonths = [...MONTHS,'Apr','May','Jun'];
+
+// Load profile (24h)
+const loadProfile = [
+  2800,2600,2400,2350,2300,2420,3200,4800,6400,7200,7800,8100,
+  8200,7900,8420,8100,7600,7200,6800,6200,5400,4600,3800,3100
+];
+const loadOptimized = loadProfile.map((v,i)=> i>=14&&i<=18 ? Math.round(v*0.78) : (i>=2&&i<=5 ? Math.round(v*1.18) : v));
+
+// Anomaly data
+const anomalyBase = arr(30,3000,5000);
+anomalyBase[4]=9200; anomalyBase[13]=8800; anomalyBase[21]=7800;
+const anomalyFlag = anomalyBase.map((v,i)=> i===4||i===13||i===21 ? v : null);
+
+let charts = {};
+
+// ══════════════════════════════════════════════════
+// CHART DEFAULTS
+// ══════════════════════════════════════════════════
+Chart.defaults.color = '#64748b';
+Chart.defaults.font.family = "'DM Sans', sans-serif";
+Chart.defaults.font.size = 11;
+
+const gridOpts = {
+  color:'rgba(30,45,69,0.8)',
+  drawBorder:false,
+};
+const tickOpts = { color:'#475569' };
+
+function makeChart(id, config){
+  const ctx = document.getElementById(id);
+  if(!ctx) return;
+  if(charts[id]) charts[id].destroy();
+  charts[id] = new Chart(ctx, config);
+  return charts[id];
+}
+
+// ══════════════════════════════════════════════════
+// INIT CHARTS
+// ══════════════════════════════════════════════════
+function initCharts(){
+  // Consumption
+  makeChart('chartConsumption',{
+    type:'bar',
+    data:{
+      labels:MONTHS,
+      datasets:[{
+        label:'GWh',
+        data:consumptionData,
+        backgroundColor:'rgba(56,189,248,0.2)',
+        borderColor:'#38bdf8',
+        borderWidth:1.5,
+        borderRadius:4,
+      }]
+    },
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:false}},
+      scales:{
+        x:{grid:gridOpts,ticks:tickOpts},
+        y:{grid:gridOpts,ticks:{...tickOpts,callback:v=>v+'GWh'}},
+      }
+    }
+  });
+
+  // Cost + Forecast
+  makeChart('chartCost',{
+    type:'line',
+    data:{
+      labels:forecastMonths,
+      datasets:[
+        {
+          label:'Actual Cost ($M)',
+          data:[2.4,2.28,2.52,2.76,3.1,3.3,3.44,3.18,2.96,3.0,2.74,3.24,null,null,null],
+          borderColor:'#fb923c',backgroundColor:'rgba(251,146,60,0.08)',
+          borderWidth:2,fill:true,tension:0.4,pointRadius:3,
+        },
+        {
+          label:'AI Forecast ($M)',
+          data:[null,null,null,null,null,null,null,null,null,null,null,3.24,3.48,3.62,3.41],
+          borderColor:'#a78bfa',backgroundColor:'rgba(167,139,250,0.06)',
+          borderWidth:2,borderDash:[6,3],fill:true,tension:0.4,pointRadius:3,
+        }
+      ]
+    },
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{labels:{color:'#94a3b8',boxWidth:12}}},
+      scales:{
+        x:{grid:gridOpts,ticks:tickOpts},
+        y:{grid:gridOpts,ticks:{...tickOpts,callback:v=>'$'+v+'M'}},
+      }
+    }
+  });
+
+  // Load Profile
+  makeChart('chartLoad',{
+    type:'line',
+    data:{
+      labels:HOURS,
+      datasets:[
+        {
+          label:'Actual Load (kW)',
+          data:loadProfile,
+          borderColor:'#38bdf8',backgroundColor:'rgba(56,189,248,0.06)',
+          borderWidth:2,fill:true,tension:0.3,pointRadius:0,
+        },
+        {
+          label:'AI Optimized (kW)',
+          data:loadOptimized,
+          borderColor:'#34d399',backgroundColor:'rgba(52,211,153,0.04)',
+          borderWidth:2,borderDash:[5,3],fill:true,tension:0.3,pointRadius:0,
+        }
+      ]
+    },
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{labels:{color:'#94a3b8',boxWidth:12}}},
+      scales:{
+        x:{grid:gridOpts,ticks:tickOpts},
+        y:{grid:gridOpts,ticks:{...tickOpts,callback:v=>v.toLocaleString()+' kW'}},
+      }
+    }
+  });
+
+  // Interval
+  makeChart('chartInterval',{
+    type:'line',
+    data:{
+      labels:Array.from({length:168},(_,i)=>i%24===0?`Day ${Math.floor(i/24)+1}`:''),
+      datasets:[{
+        label:'kW',
+        data:Array.from({length:168},(_,i)=>{
+          const h=i%24;
+          const base=h<6?2400:h<8?3800:h<18?7000+Math.sin(i*0.5)*800:5000;
+          return Math.round(base+rnd(-400,400));
+        }),
+        borderColor:'#38bdf8',backgroundColor:'rgba(56,189,248,0.05)',
+        borderWidth:1,fill:true,tension:0.2,pointRadius:0,
+      }]
+    },
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:false}},
+      scales:{
+        x:{grid:gridOpts,ticks:{...tickOpts,maxRotation:0,maxTicksLimit:8}},
+        y:{grid:gridOpts,ticks:tickOpts},
+      }
+    }
+  });
+
+  // Pie
+  const pieData=[{label:'Energy Commodity',val:38,color:'#38bdf8'},{label:'Demand Charges',val:31,color:'#fb923c'},{label:'Distribution',val:18,color:'#a78bfa'},{label:'Taxes & Fees',val:8,color:'#fbbf24'},{label:'Renewable',val:5,color:'#34d399'}];
+  makeChart('chartPie',{
+    type:'doughnut',
+    data:{
+      labels:pieData.map(d=>d.label),
+      datasets:[{data:pieData.map(d=>d.val),backgroundColor:pieData.map(d=>d.color+'33'),borderColor:pieData.map(d=>d.color),borderWidth:2,hoverOffset:4}]
+    },
+    options:{
+      responsive:true,maintainAspectRatio:false,cutout:'70%',
+      plugins:{legend:{display:false}},
+    }
+  });
+  const pl=document.getElementById('pieLabels');
+  if(pl){
+    pl.innerHTML=pieData.map(d=>`<div style="display:flex;justify-content:space-between;margin-bottom:6px;"><span style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text2);"><span style="width:8px;height:8px;border-radius:50%;background:${d.color};display:inline-block;"></span>${d.label}</span><span class="mono" style="font-size:12px;color:${d.color};">${d.val}%</span></div>`).join('');
+  }
+
+  // Anomaly
+  makeChart('chartAnomaly',{
+    type:'line',
+    data:{
+      labels:Array.from({length:30},(_,i)=>`Jan ${i+1}`),
+      datasets:[
+        {label:'kW',data:anomalyBase,borderColor:'#38bdf8',backgroundColor:'rgba(56,189,248,0.05)',borderWidth:1.5,fill:true,tension:0.3,pointRadius:0},
+        {label:'Anomaly',data:anomalyFlag,borderColor:'transparent',backgroundColor:'#f87171',pointBackgroundColor:'#f87171',pointRadius:8,pointHoverRadius:10,showLine:false,type:'scatter'},
+      ]
+    },
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:false}},
+      scales:{
+        x:{grid:gridOpts,ticks:{...tickOpts,maxTicksLimit:10}},
+        y:{grid:gridOpts,ticks:tickOpts},
+      }
+    }
+  });
+
+  // Forecast
+  const fcLabels=['Jan','Feb','Mar','Apr(F)','May(F)','Jun(F)','Jul(F)','Aug(F)','Sep(F)','Oct(F)'];
+  makeChart('chartForecast',{
+    type:'line',
+    data:{
+      labels:fcLabels,
+      datasets:[
+        {label:'Actual',data:[48,44,48,null,null,null,null,null,null,null],borderColor:'#38bdf8',backgroundColor:'rgba(56,189,248,0.1)',fill:true,borderWidth:2,tension:0.4,pointRadius:4},
+        {label:'7-Day Forecast',data:[null,null,48,50,null,null,null,null,null,null],borderColor:'#a78bfa',borderDash:[4,4],fill:false,borderWidth:2,tension:0.4,pointRadius:4},
+        {label:'30-Day Forecast',data:[null,null,48,50,52,54,null,null,null,null],borderColor:'#34d399',borderDash:[8,4],fill:false,borderWidth:2,tension:0.4,pointRadius:3},
+        {label:'90-Day Forecast',data:[null,null,48,50,52,54,56,58,54,50],borderColor:'#fbbf24',borderDash:[2,4],fill:false,borderWidth:1.5,tension:0.4,pointRadius:2},
+      ]
+    },
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{labels:{color:'#94a3b8',boxWidth:12,padding:16}}},
+      scales:{
+        x:{grid:gridOpts,ticks:tickOpts},
+        y:{grid:gridOpts,ticks:{...tickOpts,callback:v=>v+' GWh'}},
+      }
+    }
+  });
+
+  // Peak demand forecast
+  makeChart('chartPeak',{
+    type:'line',
+    data:{
+      labels:['Mon','Tue','Wed','Thu','Fri','Sat','Sun'],
+      datasets:[
+        {label:'Predicted Peak kW',data:[7800,8100,7600,8420,8840,6200,5400],borderColor:'#fb923c',backgroundColor:'rgba(251,146,60,0.1)',fill:true,borderWidth:2,tension:0.4,pointRadius:4},
+        {label:'Threshold',data:[8500,8500,8500,8500,8500,8500,8500],borderColor:'#f87171',borderDash:[6,3],fill:false,borderWidth:1.5,pointRadius:0},
+      ]
+    },
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{labels:{color:'#94a3b8',boxWidth:10,padding:10},position:'bottom'}},
+      scales:{
+        x:{grid:gridOpts,ticks:tickOpts},
+        y:{grid:gridOpts,ticks:{...tickOpts,callback:v=>v.toLocaleString()+' kW'}},
+      }
+    }
+  });
+
+  // Savings bar
+  makeChart('chartSavings',{
+    type:'bar',
+    data:{
+      labels:['Peak Shaving','Tariff Opt','Demand Resp','Renewable'],
+      datasets:[{
+        data:[183600,412000,172800,78800],
+        backgroundColor:['rgba(56,189,248,0.2)','rgba(52,211,153,0.2)','rgba(167,139,250,0.2)','rgba(251,191,36,0.2)'],
+        borderColor:['#38bdf8','#34d399','#a78bfa','#fbbf24'],
+        borderWidth:1.5,borderRadius:4,
+      }]
+    },
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:false}},
+      scales:{
+        x:{grid:{display:false},ticks:{...tickOpts,font:{size:9}}},
+        y:{grid:gridOpts,ticks:{...tickOpts,callback:v=>'$'+(v/1000)+'K'}},
+      }
+    }
+  });
+
+  // Opt Load
+  makeChart('chartOptLoad',{
+    type:'line',
+    data:{
+      labels:HOURS,
+      datasets:[
+        {label:'Current Schedule',data:loadProfile,borderColor:'#fb923c',backgroundColor:'rgba(251,146,60,0.05)',fill:true,borderWidth:2,tension:0.3,pointRadius:0},
+        {label:'RL Optimized',data:loadOptimized,borderColor:'#34d399',backgroundColor:'rgba(52,211,153,0.05)',fill:true,borderWidth:2,tension:0.3,pointRadius:0},
+      ]
+    },
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{labels:{color:'#94a3b8',boxWidth:10}}},
+      scales:{
+        x:{grid:gridOpts,ticks:tickOpts},
+        y:{grid:gridOpts,ticks:tickOpts},
+      }
+    }
+  });
+
+  // Carbon
+  makeChart('chartCarbon',{
+    type:'line',
+    data:{
+      labels:MONTHS,
+      datasets:[
+        {label:'Scope 1',data:[4200,4100,3950,4100,4300,4500,4600,4400,4200,4100,3900,3840],borderColor:'#34d399',fill:false,borderWidth:2,tension:0.4,pointRadius:2},
+        {label:'Scope 2',data:[9800,9400,9100,9400,9900,10400,10700,10100,9600,9400,9100,9000],borderColor:'#38bdf8',fill:false,borderWidth:2,tension:0.4,pointRadius:2},
+      ]
+    },
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{labels:{color:'#94a3b8',boxWidth:10}}},
+      scales:{
+        x:{grid:gridOpts,ticks:tickOpts},
+        y:{grid:gridOpts,ticks:{...tickOpts,callback:v=>v.toLocaleString()+' t'}},
+      }
+    }
+  });
+
+  // Net Zero
+  makeChart('chartNetZero',{
+    type:'line',
+    data:{
+      labels:['2024','2025','2026','2027','2028','2030','2032','2035','2040','2050'],
+      datasets:[
+        {label:'BAU Trajectory',data:[162000,165000,170000,174000,178000,186000,194000,206000,226000,260000],borderColor:'#f87171',borderDash:[4,4],fill:false,borderWidth:2,tension:0.4,pointRadius:2},
+        {label:'AI Optimized Path',data:[162000,155000,142000,128000,112000,84000,62000,38000,18000,0],borderColor:'#34d399',backgroundColor:'rgba(52,211,153,0.06)',fill:true,borderWidth:2,tension:0.4,pointRadius:2},
+        {label:'SBTi Target',data:[162000,150000,138000,118000,98000,70000,48000,28000,12000,0],borderColor:'#fbbf24',borderDash:[2,4],fill:false,borderWidth:1.5,tension:0.4,pointRadius:0},
+      ]
+    },
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{labels:{color:'#94a3b8',boxWidth:10}}},
+      scales:{
+        x:{grid:gridOpts,ticks:tickOpts},
+        y:{grid:gridOpts,ticks:{...tickOpts,callback:v=>v===0?'NET ZERO':(v/1000)+'K t'}},
+      }
+    }
+  });
+
+  // Renewable doughnut
+  makeChart('chartRenew',{
+    type:'doughnut',
+    data:{
+      labels:['Solar','Wind PPA','RECs','Grid'],
+      datasets:[{data:[12,18,8,62],backgroundColor:['rgba(251,191,36,0.4)','rgba(56,189,248,0.4)','rgba(52,211,153,0.4)','rgba(100,116,139,0.3)'],borderColor:['#fbbf24','#38bdf8','#34d399','#475569'],borderWidth:2}]
+    },
+    options:{responsive:true,maintainAspectRatio:false,cutout:'65%',plugins:{legend:{display:false}}}
+  });
+
+  // Carbon intensity hourly
+  makeChart('chartCI',{
+    type:'line',
+    data:{
+      labels:HOURS,
+      datasets:[{
+        label:'tCO₂/MWh',
+        data:HOURS.map((_,i)=>{
+          if(i<6)return+(0.18+Math.sin(i*0.5)*0.02).toFixed(3);
+          if(i<12)return+(0.28+Math.sin(i*0.3)*0.04).toFixed(3);
+          if(i<18)return+(0.38+Math.sin(i*0.2)*0.05).toFixed(3);
+          return+(0.28+Math.sin(i*0.4)*0.03).toFixed(3);
+        }),
+        borderColor:'#34d399',fill:true,backgroundColor:'rgba(52,211,153,0.08)',borderWidth:2,tension:0.4,pointRadius:0,
+      }]
+    },
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:false}},
+      scales:{
+        x:{grid:gridOpts,ticks:{...tickOpts,maxTicksLimit:6,font:{size:9}}},
+        y:{grid:gridOpts,ticks:{...tickOpts,font:{size:9}}},
+      }
+    }
+  });
+
+  // Digital Twin
+  makeChart('chartTwin',{
+    type:'line',
+    data:{
+      labels:HOURS,
+      datasets:[
+        {label:'Real (kW)',data:loadProfile,borderColor:'#38bdf8',fill:false,borderWidth:2,tension:0.3,pointRadius:0},
+        {label:'Twin Simulated (kW)',data:loadProfile.map(v=>Math.round(v+rnd(-120,120))),borderColor:'#a78bfa',borderDash:[4,3],fill:false,borderWidth:1.5,tension:0.3,pointRadius:0},
+      ]
+    },
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{labels:{color:'#94a3b8',boxWidth:10}}},
+      scales:{
+        x:{grid:gridOpts,ticks:tickOpts},
+        y:{grid:gridOpts,ticks:tickOpts},
+      }
+    }
+  });
+}
+
+// ══════════════════════════════════════════════════
+// NAVIGATION
+// ══════════════════════════════════════════════════
+function showPage(name, tabEl, sidebarEl){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.sidebar-item').forEach(s=>s.classList.remove('active'));
+  const p=document.getElementById('page-'+name);
+  if(p) p.classList.add('active');
+  if(tabEl) tabEl.classList.add('active');
+  else {
+    document.querySelectorAll('.nav-tab').forEach(t=>{
+      if(t.dataset.page===name) t.classList.add('active');
+    });
+  }
+  if(sidebarEl) sidebarEl.classList.add('active');
+  setTimeout(initCharts, 50);
+}
+
+// ══════════════════════════════════════════════════
+// ORG SWITCHER
+// ══════════════════════════════════════════════════
+function switchOrg(){
+  const v=document.getElementById('orgPicker').value;
+  const d=ORG_DATA[v];
+  if(!d) return;
+  document.getElementById('org-title').textContent=d.name+' — Portfolio Overview';
+  document.getElementById('kpi-consumption').textContent=d.consumption;
+  document.getElementById('kpi-cost').textContent=d.cost;
+  document.getElementById('kpi-savings').textContent=d.savings;
+  document.getElementById('kpi-carbon').textContent=d.carbon;
+  document.getElementById('kpi-anomalies').textContent=d.anomalies;
+  setTimeout(initCharts,50);
+}
+
+// ══════════════════════════════════════════════════
+// SIMULATOR
+// ══════════════════════════════════════════════════
+function updateSimulator(){
+  const shed=+document.getElementById('sliderShed').value;
+  const tariff=+document.getElementById('selTariff').value;
+  const renew=+document.getElementById('sliderRenew').value;
+  const dr=+document.getElementById('selDR').value;
+  document.getElementById('valShed').textContent=shed+' kW';
+  document.getElementById('valRenew').textContent=renew+'%';
+  const s1=Math.round(shed*0.0128*12*100);
+  const s2=tariff===2?412000:tariff===3?380000:tariff===4?440000:0;
+  const s3=dr===1?86400:dr===2?172800:dr===3?259200:0;
+  const s4=Math.round(renew*2626);
+  const total=s1+s2+s3+s4;
+  document.getElementById('sav1').textContent='$'+s1.toLocaleString();
+  document.getElementById('sav2').textContent='$'+s2.toLocaleString();
+  document.getElementById('sav3').textContent='$'+s3.toLocaleString();
+  document.getElementById('sav4').textContent='$'+s4.toLocaleString();
+  document.getElementById('simSavings').textContent='$'+total.toLocaleString();
+}
+
+// ══════════════════════════════════════════════════
+// DIGITAL TWIN
+// ══════════════════════════════════════════════════
+function updateTwin(){
+  const prod=+document.getElementById('twinProd').value;
+  const hvac=+document.getElementById('twinHVAC').value;
+  const solar=+document.getElementById('twinSolar').value;
+  document.getElementById('twinProdVal').textContent=(prod>=0?'+':'')+prod+'%';
+  document.getElementById('twinHVACVal').textContent=(hvac>=0?'+':'')+hvac+'°F';
+  document.getElementById('twinSolarVal').textContent=solar+'%';
+  const costDelta=Math.round(prod*8400+hvac*-3200+(solar-12)*-1800);
+  const carbonDelta=Math.round(prod*180+hvac*-40+(solar-12)*-22);
+  const demandDelta=Math.round(prod*82+hvac*-160);
+  document.getElementById('twinCostDelta').textContent=(costDelta>=0?'+$':'-$')+Math.abs(costDelta).toLocaleString();
+  document.getElementById('twinCarbonDelta').textContent=(carbonDelta>=0?'+':'')+(carbonDelta)+' tCO₂';
+  document.getElementById('twinDemandDelta').textContent=(demandDelta>=0?'+':'')+demandDelta+' kW';
+  const payback=solar>12?Math.round((solar-12)*42000/(Math.abs(costDelta)||1))+' mo':'—';
+  document.getElementById('twinPayback').textContent=payback;
+  document.getElementById('twinCostDelta').style.color=costDelta<=0?'var(--green)':'var(--red)';
+  document.getElementById('twinCarbonDelta').style.color=carbonDelta<=0?'var(--green)':'var(--red)';
+}
+
+// ══════════════════════════════════════════════════
+// AI COPILOT
+// ══════════════════════════════════════════════════
+const RESPONSES = {
+  'why did energy costs increase last month?': `Your March cost of <span class="stat-inline">$3.24M</span> is up <span class="stat-inline">7.4%</span> vs February. Three primary drivers:<br/><br/>
+    <span class="highlight">1. Market prices +9.2%:</span> PJM day-ahead averaged $48.20/MWh vs $44.10 in Feb. This adds approximately $184K.<br/>
+    <span class="highlight">2. Demand spike — Plant Gamma:</span> An anomalous peak of 8,800 kW triggered a ratchet demand charge of $3,200 above normal.<br/>
+    <span class="highlight">3. Production increase +12%:</span> Higher throughput at Plants Alpha and Beta added 2.1 GWh consumption.<br/><br/>
+    AI Recommendation: Switch Plant Alpha to <span class="stat-inline">TOU Rate D</span> immediately. Saves <span class="highlight">$18,400/month</span> starting next cycle.`,
+
+  'how can i reduce costs by 15%?': `Absolutely achievable. Here's your AI-generated roadmap to <span class="highlight">15%+ cost reduction (~$486K/year)</span>:<br/><br/>
+    <span class="highlight">Action 1 — Tariff Switch (Month 1):</span> Switch to TOU Rate D. Saves <span class="stat-inline">$412K/yr</span>. Zero capex.<br/>
+    <span class="highlight">Action 2 — Peak Shaving (Month 1-2):</span> Pre-cool HVAC 2-4 AM, shift arc furnace to 11PM-3AM. Saves <span class="stat-inline">$183K/yr</span>.<br/>
+    <span class="highlight">Action 3 — Demand Response (Month 2):</span> Enroll Plants Alpha + Beta in Standard DR program. Earns <span class="stat-inline">$172K/yr</span> in incentives.<br/>
+    <span class="highlight">Action 4 — Procurement Lock (This week):</span> Lock 30% load forward before Q2 price spike. Saves <span class="stat-inline">$290K</span> vs spot.<br/><br/>
+    Combined annual impact: <span class="highlight">$1.06M (32% reduction)</span>. I can auto-execute Actions 1-3 with your approval.`,
+
+  'what is my carbon footprint trend?': `Your portfolio emissions are trending <span class="highlight">favorably</span>:<br/><br/>
+    <span class="highlight">Scope 1:</span> <span class="stat-inline">3,840 tCO₂/mo</span> — down 4.1% YoY from combustion improvements.<br/>
+    <span class="highlight">Scope 2:</span> <span class="stat-inline">9,000 tCO₂/mo</span> — down 7.2% YoY from grid decarbonization + RECs.<br/>
+    <span class="highlight">Carbon intensity:</span> <span class="stat-inline">0.266 tCO₂/MWh</span> — improved 6.3% YoY.<br/><br/>
+    At current trajectory, you reach <span class="highlight">net-zero by 2048</span>. To hit your SBTi 2040 target, you need to accelerate by adding:<br/>
+    — 42% renewable by 2028 (you're at 38% now)<br/>
+    — Carbon-aware scheduling (AI can automate this, saving 18% Scope 2)<br/>
+    — Green procurement for Scope 3 supply chain<br/><br/>
+    I can generate your CDP Climate Response report automatically. Want me to start?`,
+
+  'which facility is least efficient?': `<span class="highlight">Plant Gamma (Detroit, MI)</span> is your least efficient facility with an AI efficiency score of <span class="stat-inline">41/100</span>.<br/><br/>
+    Key issues identified:<br/>
+    — Energy Use Intensity (EUI): <span class="stat-inline">195 kBtu/sqft</span> vs industry median of 145<br/>
+    — 4 critical anomalies in past 30 days, 3 billing errors totaling <span class="stat-inline">$14,200 overbilling</span><br/>
+    — Power factor at 0.82 (target: 0.95+)<br/>
+    — Off-peak curtailment opportunity: 620 kW available for shifting<br/><br/>
+    Estimated <span class="highlight">monthly overrun: $96,400</span> vs benchmark peers.<br/><br/>
+    Top 3 immediate actions:<br/>
+    1. Fix capacitor bank (PF 0.82 → 0.95): saves <span class="stat-inline">$1,400/mo</span><br/>
+    2. Dispute billing errors: recover <span class="stat-inline">$14,200</span><br/>
+    3. HVAC retrofit: saves <span class="stat-inline">$22,000/mo</span> at 18-month payback`,
+
+  'should i lock forward energy contracts now?': `<span class="highlight">YES — high urgency. Act within 48 hours.</span><br/><br/>
+    My LSTM price model forecasts a <span class="stat-inline">14% price increase</span> in Q2 (Apr-Jun 2026) based on:<br/>
+    — Natural gas futures up 18% (Henry Hub $2.84 → $3.34)<br/>
+    — PJM capacity auction results: tight summer margins<br/>
+    — Weather forecast: above-normal temps April onward<br/><br/>
+    <span class="highlight">Recommended contract strategy:</span><br/>
+    — Lock 30% of baseload (25 MW) at current <span class="stat-inline">$41.20/MWh</span><br/>
+    — Leave 70% flexible for demand response and spot optimization<br/>
+    — Term: April–September 2026 (6-month hedge)<br/><br/>
+    Value at current vs. projected price:<br/>
+    25 MW × 8,760 hrs × 50% load factor × $5.80/MWh delta = <span class="highlight">$289,620 saved</span><br/><br/>
+    Confidence: <span class="stat-inline">81%</span>. Recommend escalating to procurement team today.`,
+};
+
+function getResponse(q){
+  const key=q.toLowerCase().trim();
+  for(const [k,v] of Object.entries(RESPONSES)){
+    if(key.includes(k.slice(0,15))) return v;
+  }
+  return `I analyzed your portfolio data and generated this insight:<br/><br/>
+    Your current energy portfolio shows <span class="stat-inline">48.2 GWh</span> consumption with <span class="stat-inline">$3.24M</span> spend this month.
+    The AI optimization engine has identified <span class="highlight">$1.06M in annual savings opportunities</span> across tariff optimization, peak shaving, and demand response programs.<br/><br/>
+    For your specific query, I recommend exploring the Optimizer module for detailed scenario modeling, or the Digital Twin simulator for what-if analysis. Would you like me to run a specific analysis?`;
+}
+
+function addMessage(role, html){
+  const div=document.createElement('div');
+  div.className='msg'+(role==='user'?' user':'');
+  div.innerHTML=`<div class="msg-avatar">${role==='user'?'MS':'🤖'}</div><div class="msg-bubble">${html}</div>`;
+  document.getElementById('copilotMessages').appendChild(div);
+  document.getElementById('copilotMessages').scrollTop=99999;
+}
+
+function sendCopilotMessage(q){
+  document.getElementById('copilotInput').value=q;
+  sendCopilot();
+}
+
+function sendCopilot(){
+  const inp=document.getElementById('copilotInput');
+  const q=inp.value.trim();
+  if(!q) return;
+  inp.value='';
+  addMessage('user', q);
+  document.getElementById('suggestions').style.display='none';
+
+  // Typing indicator
+  const typingDiv=document.createElement('div');
+  typingDiv.className='msg';
+  typingDiv.innerHTML=`<div class="msg-avatar">🤖</div><div class="msg-bubble"><div class="typing"><span></span><span></span><span></span></div></div>`;
+  document.getElementById('copilotMessages').appendChild(typingDiv);
+  document.getElementById('copilotMessages').scrollTop=99999;
+
+  setTimeout(()=>{
+    typingDiv.remove();
+    addMessage('ai', getResponse(q));
+  }, 1400+Math.random()*600);
+}
+
+// ══════════════════════════════════════════════════
+// LAUNCH + LOADING
+// ══════════════════════════════════════════════════
+function launchDemo(){
+  document.getElementById('landing').style.display='none';
+  document.getElementById('loadingScreen').style.display='flex';
+  const steps=[
+    [10,'INITIALIZING AI ENGINE...'],
+    [30,'LOADING SYNTHETIC ENERGY DATA...'],
+    [50,'TRAINING FORECAST MODELS...'],
+    [70,'RUNNING ANOMALY DETECTION...'],
+    [85,'BUILDING PORTFOLIO CONTEXT...'],
+    [95,'LAUNCHING NEXUSGRID...'],
+    [100,'READY'],
+  ];
+  let i=0;
+  function step(){
+    if(i>=steps.length){
+      setTimeout(()=>{
+        document.getElementById('loadingScreen').style.display='none';
+        document.getElementById('app').style.display='flex';
+        document.getElementById('app').style.flexDirection='column';
+        document.getElementById('lastUpdate').textContent=new Date().toLocaleTimeString();
+        setTimeout(initCharts, 100);
+      },400);
+      return;
+    }
+    document.getElementById('loadFill').style.width=steps[i][0]+'%';
+    document.getElementById('loadStatus').textContent=steps[i][1];
+    i++;
+    setTimeout(step, 380);
+  }
+  setTimeout(step, 300);
+}
+
+// Auto-update clock
+setInterval(()=>{
+  const el=document.getElementById('lastUpdate');
+  if(el) el.textContent=new Date().toLocaleTimeString();
+},30000);
+
+// Show landing on load
+window.addEventListener('load',()=>{
+  document.getElementById('loadingScreen').style.display='none';
+});
+</script>
+</body>
+</html>
