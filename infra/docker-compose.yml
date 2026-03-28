@@ -1,0 +1,37 @@
+version: "3.9"
+# NexusGrid — Docker Compose
+# © 2026 Mandeep Sharma. All rights reserved.
+
+services:
+  api:
+    build: ../backend
+    ports: ["8000:8000"]
+    environment:
+      DATABASE_URL: postgresql://nexusgrid:nexusgrid@db:5432/nexusgrid
+      REDIS_URL: redis://redis:6379/0
+      ENVIRONMENT: development
+    depends_on: [db, redis]
+    volumes: ["../ml/data/generated:/data/generated"]
+
+  db:
+    image: timescale/timescaledb:latest-pg16
+    environment:
+      POSTGRES_DB: nexusgrid
+      POSTGRES_USER: nexusgrid
+      POSTGRES_PASSWORD: nexusgrid
+    ports: ["5432:5432"]
+    volumes: ["pgdata:/var/lib/postgresql/data"]
+
+  redis:
+    image: redis:7-alpine
+    ports: ["6379:6379"]
+
+  frontend:
+    build: ../frontend
+    ports: ["3000:3000"]
+    environment:
+      NEXT_PUBLIC_API_URL: http://api:8000
+    depends_on: [api]
+
+volumes:
+  pgdata:

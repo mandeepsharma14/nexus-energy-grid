@@ -1,0 +1,6 @@
+id,utility,name,type,base_energy_rate,demand_charge_kw,off_peak_rate,on_peak_rate,on_peak_hours
+T001,AEP Ohio,Industrial Demand (Schedule GS-3),flat_demand,0.0674,12.8,,,N/A
+T002,AEP Ohio,Time-of-Use Rate D,tou,0.052,10.4,0.042,0.098,9AM-9PM weekdays
+T003,ComEd,Commercial Flat Rate,flat,0.091,8.2,,,N/A
+T004,PPL Electric,Large Power Service,large_power,0.058,14.6,0.048,0.112,8AM-8PM weekdays
+T005,DTE Energy,Industrial TOU (Schedule D3),tou_industrial,0.075,11.2,0.061,0.108,7AM-7PM weekdays

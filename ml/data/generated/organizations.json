@@ -1,0 +1,52 @@
+{
+  "arcelor_steel": {
+    "name": "ArcelorSteel Manufacturing",
+    "type": "industrial",
+    "base_load_kw": 6000,
+    "peak_multiplier": 1.45,
+    "num_facilities": 5,
+    "tariff": "industrial_demand",
+    "cost_per_kwh": 0.0674,
+    "demand_charge_per_kw": 12.8
+  },
+  "megamart_retail": {
+    "name": "MegaMart Retail Chain",
+    "type": "retail",
+    "base_load_kw": 3800,
+    "peak_multiplier": 1.3,
+    "num_facilities": 12,
+    "tariff": "commercial_tou",
+    "cost_per_kwh": 0.082,
+    "demand_charge_per_kw": 9.4
+  },
+  "primeplex_cre": {
+    "name": "PrimePlex Commercial RE",
+    "type": "commercial",
+    "base_load_kw": 2100,
+    "peak_multiplier": 1.25,
+    "num_facilities": 8,
+    "tariff": "commercial_flat",
+    "cost_per_kwh": 0.091,
+    "demand_charge_per_kw": 8.2
+  },
+  "swiftlogix": {
+    "name": "SwiftLogix Warehouses",
+    "type": "logistics",
+    "base_load_kw": 2800,
+    "peak_multiplier": 1.35,
+    "num_facilities": 6,
+    "tariff": "industrial_tou",
+    "cost_per_kwh": 0.075,
+    "demand_charge_per_kw": 11.2
+  },
+  "vertex_dc": {
+    "name": "Vertex Data Centers",
+    "type": "data_center",
+    "base_load_kw": 11000,
+    "peak_multiplier": 1.15,
+    "num_facilities": 3,
+    "tariff": "large_power",
+    "cost_per_kwh": 0.058,
+    "demand_charge_per_kw": 14.6
+  }
+}

@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1400" height="900" viewBox="0 0 1400 900" xmlns="http://www.w3.org/2000/svg" font-family="'Segoe UI', system-ui, sans-serif">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0a0f1e"/>
+      <stop offset="100%" style="stop-color:#0d1b2a"/>
+    </linearGradient>
+    <linearGradient id="blueGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1e3a5f"/>
+      <stop offset="100%" style="stop-color:#0d2137"/>
+    </linearGradient>
+    <linearGradient id="greenGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0d3320"/>
+      <stop offset="100%" style="stop-color:#061a10"/>
+    </linearGradient>
+    <linearGradient id="purpleGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#2d1b5e"/>
+      <stop offset="100%" style="stop-color:#180d3a"/>
+    </linearGradient>
+    <linearGradient id="orangeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#3d1f00"/>
+      <stop offset="100%" style="stop-color:#1f0f00"/>
+    </linearGradient>
+    <linearGradient id="tealGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#003d3d"/>
+      <stop offset="100%" style="stop-color:#001f1f"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <marker id="arrowBlue" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L8,3 z" fill="#38bdf8"/>
+    </marker>
+    <marker id="arrowGreen" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L8,3 z" fill="#34d399"/>
+    </marker>
+    <marker id="arrowPurple" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L8,3 z" fill="#a78bfa"/>
+    </marker>
+    <marker id="arrowOrange" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L8,3 z" fill="#fb923c"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1400" height="900" fill="url(#bgGrad)"/>
+
+  <!-- Grid pattern -->
+  <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+    <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#1a2744" stroke-width="0.5"/>
+  </pattern>
+  <rect width="1400" height="900" fill="url(#grid)" opacity="0.4"/>
+
+  <!-- Title -->
+  <text x="700" y="45" text-anchor="middle" fill="#38bdf8" font-size="26" font-weight="800" filter="url(#glow)">NexusGrid – AI-Powered Energy Intelligence Platform</text>
+  <text x="700" y="68" text-anchor="middle" fill="#64748b" font-size="13">System Architecture v1.0 | © 2026 Mandeep Sharma. All rights reserved.</text>
+
+  <!-- ═══ ROW 1: Data Sources ═══ -->
+  <text x="90" y="105" fill="#94a3b8" font-size="11" font-weight="600" letter-spacing="2">DATA SOURCES</text>
+  <rect x="30" y="112" width="130" height="60" rx="8" fill="url(#blueGrad)" stroke="#38bdf8" stroke-width="1.5"/>
+  <text x="95" y="137" text-anchor="middle" fill="#38bdf8" font-size="11" font-weight="700">Utility APIs</text>
+  <text x="95" y="152" text-anchor="middle" fill="#94a3b8" font-size="9">Green Button / EDI</text>
+  <text x="95" y="164" text-anchor="middle" fill="#94a3b8" font-size="9">REST/SOAP</text>
+
+  <rect x="175" y="112" width="130" height="60" rx="8" fill="url(#blueGrad)" stroke="#38bdf8" stroke-width="1.5"/>
+  <text x="240" y="137" text-anchor="middle" fill="#38bdf8" font-size="11" font-weight="700">IoT / Smart Meters</text>
+  <text x="240" y="152" text-anchor="middle" fill="#94a3b8" font-size="9">MQTT / WebSocket</text>
+  <text x="240" y="164" text-anchor="middle" fill="#94a3b8" font-size="9">15-min intervals</text>
+
+  <rect x="320" y="112" width="130" height="60" rx="8" fill="url(#blueGrad)" stroke="#38bdf8" stroke-width="1.5"/>
+  <text x="385" y="137" text-anchor="middle" fill="#38bdf8" font-size="11" font-weight="700">CSV / PDF Upload</text>
+  <text x="385" y="152" text-anchor="middle" fill="#94a3b8" font-size="9">Bill OCR Processing</text>
+  <text x="385" y="164" text-anchor="middle" fill="#94a3b8" font-size="9">Data Normalization</text>
+
+  <rect x="465" y="112" width="130" height="60" rx="8" fill="url(#blueGrad)" stroke="#38bdf8" stroke-width="1.5"/>
+  <text x="530" y="137" text-anchor="middle" fill="#38bdf8" font-size="11" font-weight="700">Market Data</text>
+  <text x="530" y="152" text-anchor="middle" fill="#94a3b8" font-size="9">Energy Prices / PJM</text>
+  <text x="530" y="164" text-anchor="middle" fill="#94a3b8" font-size="9">Weather APIs</text>
+
+  <rect x="610" y="112" width="130" height="60" rx="8" fill="url(#blueGrad)" stroke="#38bdf8" stroke-width="1.5"/>
+  <text x="675" y="137" text-anchor="middle" fill="#38bdf8" font-size="11" font-weight="700">Carbon Registry</text>
+  <text x="675" y="152" text-anchor="middle" fill="#94a3b8" font-size="9">EPA eGRID</text>
+  <text x="675" y="164" text-anchor="middle" fill="#94a3b8" font-size="9">Scope 1/2/3 Factors</text>
+
+  <!-- ═══ ROW 2: Ingestion Layer ═══ -->
+  <text x="90" y="210" fill="#94a3b8" font-size="11" font-weight="600" letter-spacing="2">INGESTION &amp; PROCESSING LAYER</text>
+  <rect x="30" y="218" width="710" height="70" rx="10" fill="url(#tealGrad)" stroke="#2dd4bf" stroke-width="1.5"/>
+  <text x="385" y="243" text-anchor="middle" fill="#2dd4bf" font-size="13" font-weight="700">Data Ingestion Pipeline</text>
+  <!-- Sub-boxes -->
+  <rect x="45" y="250" width="110" height="28" rx="5" fill="#0f2a2a" stroke="#2dd4bf" stroke-width="1"/>
+  <text x="100" y="268" text-anchor="middle" fill="#94a3b8" font-size="9">Schema Validation</text>
+  <rect x="165" y="250" width="110" height="28" rx="5" fill="#0f2a2a" stroke="#2dd4bf" stroke-width="1"/>
+  <text x="220" y="268" text-anchor="middle" fill="#94a3b8" font-size="9">Data Cleaning / ETL</text>
+  <rect x="285" y="250" width="110" height="28" rx="5" fill="#0f2a2a" stroke="#2dd4bf" stroke-width="1"/>
+  <text x="340" y="268" text-anchor="middle" fill="#94a3b8" font-size="9">Anomaly Flagging</text>
+  <rect x="405" y="250" width="110" height="28" rx="5" fill="#0f2a2a" stroke="#2dd4bf" stroke-width="1"/>
+  <text x="460" y="268" text-anchor="middle" fill="#94a3b8" font-size="9">Unit Normalization</text>
+  <rect x="525" y="250" width="110" height="28" rx="5" fill="#0f2a2a" stroke="#2dd4bf" stroke-width="1"/>
+  <text x="580" y="268" text-anchor="middle" fill="#94a3b8" font-size="9">Tenant Isolation</text>
+  <rect x="645" y="250" width="80" height="28" rx="5" fill="#0f2a2a" stroke="#2dd4bf" stroke-width="1"/>
+  <text x="685" y="268" text-anchor="middle" fill="#94a3b8" font-size="9">Event Queue</text>
+
+  <!-- ═══ ROW 3: Core Engine ═══ (split into left/right) -->
+  <text x="90" y="318" fill="#94a3b8" font-size="11" font-weight="600" letter-spacing="2">AI/ML ENGINE</text>
+
+  <!-- AI Core -->
+  <rect x="30" y="325" width="440" height="175" rx="10" fill="url(#purpleGrad)" stroke="#a78bfa" stroke-width="2"/>
+  <text x="250" y="348" text-anchor="middle" fill="#a78bfa" font-size="13" font-weight="700">AI/ML Core Engine (Python · scikit-learn · PyTorch)</text>
+
+  <rect x="45" y="355" width="195" height="60" rx="7" fill="#1a0d3a" stroke="#a78bfa" stroke-width="1"/>
+  <text x="142" y="373" text-anchor="middle" fill="#c4b5fd" font-size="10" font-weight="700">Forecasting Engine</text>
+  <text x="142" y="388" text-anchor="middle" fill="#94a3b8" font-size="9">LSTM / Prophet / ARIMA</text>
+  <text x="142" y="400" text-anchor="middle" fill="#94a3b8" font-size="9">7 / 30 / 90-day horizons</text>
+  <text x="142" y="412" text-anchor="middle" fill="#94a3b8" font-size="9">Confidence intervals</text>
+
+  <rect x="255" y="355" width="200" height="60" rx="7" fill="#1a0d3a" stroke="#a78bfa" stroke-width="1"/>
+  <text x="355" y="373" text-anchor="middle" fill="#c4b5fd" font-size="10" font-weight="700">Anomaly Detection</text>
+  <text x="355" y="388" text-anchor="middle" fill="#94a3b8" font-size="9">Isolation Forest / Autoencoder</text>
+  <text x="355" y="400" text-anchor="middle" fill="#94a3b8" font-size="9">Statistical Process Control</text>
+  <text x="355" y="412" text-anchor="middle" fill="#94a3b8" font-size="9">Real-time scoring</text>
+
+  <rect x="45" y="425" width="195" height="60" rx="7" fill="#1a0d3a" stroke="#a78bfa" stroke-width="1"/>
+  <text x="142" y="443" text-anchor="middle" fill="#c4b5fd" font-size="10" font-weight="700">Optimization Engine</text>
+  <text x="142" y="458" text-anchor="middle" fill="#94a3b8" font-size="9">Linear Programming (PuLP)</text>
+  <text x="142" y="470" text-anchor="middle" fill="#94a3b8" font-size="9">RL Load Optimization</text>
+  <text x="142" y="482" text-anchor="middle" fill="#94a3b8" font-size="9">Tariff + Demand Response</text>
+
+  <rect x="255" y="425" width="200" height="60" rx="7" fill="#1a0d3a" stroke="#a78bfa" stroke-width="1"/>
+  <text x="355" y="443" text-anchor="middle" fill="#c4b5fd" font-size="10" font-weight="700">Recommendation Engine</text>
+  <text x="355" y="458" text-anchor="middle" fill="#94a3b8" font-size="9">Collaborative Filtering</text>
+  <text x="355" y="470" text-anchor="middle" fill="#94a3b8" font-size="9">Rule-based + ML hybrid</text>
+  <text x="355" y="482" text-anchor="middle" fill="#94a3b8" font-size="9">Savings quantification</text>
+
+  <!-- AI Copilot -->
+  <rect x="490" y="325" width="255" height="175" rx="10" fill="#1a0a00" stroke="#fb923c" stroke-width="2"/>
+  <text x="617" y="348" text-anchor="middle" fill="#fb923c" font-size="13" font-weight="700">AI Copilot (NLP)</text>
+  <rect x="505" y="355" width="225" height="50" rx="6" fill="#2d1200" stroke="#fb923c" stroke-width="1"/>
+  <text x="617" y="373" text-anchor="middle" fill="#fdba74" font-size="10" font-weight="700">LLM Integration Layer</text>
+  <text x="617" y="388" text-anchor="middle" fill="#94a3b8" font-size="9">Claude / GPT-4 API · RAG pipeline</text>
+  <text x="617" y="400" text-anchor="middle" fill="#94a3b8" font-size="9">Structured energy context injection</text>
+  <rect x="505" y="415" width="225" height="75" rx="6" fill="#2d1200" stroke="#fb923c" stroke-width="1"/>
+  <text x="617" y="433" text-anchor="middle" fill="#fdba74" font-size="10" font-weight="700">Autonomous Insight Engine</text>
+  <text x="617" y="448" text-anchor="middle" fill="#94a3b8" font-size="9">Auto-alert generation</text>
+  <text x="617" y="460" text-anchor="middle" fill="#94a3b8" font-size="9">Root cause analysis</text>
+  <text x="617" y="472" text-anchor="middle" fill="#94a3b8" font-size="9">Executive summary generation</text>
+  <text x="617" y="484" text-anchor="middle" fill="#94a3b8" font-size="9">ESG narrative builder</text>
+
+  <!-- Digital Twin -->
+  <rect x="760" y="325" width="250" height="175" rx="10" fill="url(#greenGrad)" stroke="#34d399" stroke-width="2"/>
+  <text x="885" y="348" text-anchor="middle" fill="#34d399" font-size="13" font-weight="700">Digital Twin Engine</text>
+  <rect x="775" y="355" width="220" height="55" rx="6" fill="#051a0f" stroke="#34d399" stroke-width="1"/>
+  <text x="885" y="373" text-anchor="middle" fill="#6ee7b7" font-size="10" font-weight="700">Virtual Facility Model</text>
+  <text x="885" y="388" text-anchor="middle" fill="#94a3b8" font-size="9">Per-facility energy state replica</text>
+  <text x="885" y="400" text-anchor="middle" fill="#94a3b8" font-size="9">Meter topology graph</text>
+  <rect x="775" y="420" width="220" height="70" rx="6" fill="#051a0f" stroke="#34d399" stroke-width="1"/>
+  <text x="885" y="438" text-anchor="middle" fill="#6ee7b7" font-size="10" font-weight="700">Scenario Simulator</text>
+  <text x="885" y="453" text-anchor="middle" fill="#94a3b8" font-size="9">What-if cost simulations</text>
+  <text x="885" y="465" text-anchor="middle" fill="#94a3b8" font-size="9">Carbon impact projections</text>
+  <text x="885" y="477" text-anchor="middle" fill="#94a3b8" font-size="9">Tariff switching analysis</text>
+  <text x="885" y="489" text-anchor="middle" fill="#94a3b8" font-size="9">Procurement timing optimizer</text>
+
+  <!-- Carbon Intelligence -->
+  <rect x="1025" y="325" width="340" height="175" rx="10" fill="#1a1000" stroke="#fbbf24" stroke-width="2"/>
+  <text x="1195" y="348" text-anchor="middle" fill="#fbbf24" font-size="13" font-weight="700">Sustainability Intelligence</text>
+  <rect x="1040" y="355" width="150" height="130" rx="6" fill="#261600" stroke="#fbbf24" stroke-width="1"/>
+  <text x="1115" y="373" text-anchor="middle" fill="#fde68a" font-size="10" font-weight="700">Carbon Engine</text>
+  <text x="1115" y="390" text-anchor="middle" fill="#94a3b8" font-size="9">Scope 1 / 2 / 3</text>
+  <text x="1115" y="403" text-anchor="middle" fill="#94a3b8" font-size="9">eGRID emission factors</text>
+  <text x="1115" y="416" text-anchor="middle" fill="#94a3b8" font-size="9">Real-time carbon intensity</text>
+  <text x="1115" y="429" text-anchor="middle" fill="#94a3b8" font-size="9">RECs / offsets tracking</text>
+  <text x="1115" y="442" text-anchor="middle" fill="#94a3b8" font-size="9">Carbon-aware scheduling</text>
+  <text x="1115" y="455" text-anchor="middle" fill="#94a3b8" font-size="9">Net-zero pathway model</text>
+  <text x="1115" y="468" text-anchor="middle" fill="#94a3b8" font-size="9">TCFD reporting ready</text>
+  <rect x="1200" y="355" width="150" height="130" rx="6" fill="#261600" stroke="#fbbf24" stroke-width="1"/>
+  <text x="1275" y="373" text-anchor="middle" fill="#fde68a" font-size="10" font-weight="700">ESG Dashboard</text>
+  <text x="1275" y="390" text-anchor="middle" fill="#94a3b8" font-size="9">GHG Protocol aligned</text>
+  <text x="1275" y="403" text-anchor="middle" fill="#94a3b8" font-size="9">SBTi target tracking</text>
+  <text x="1275" y="416" text-anchor="middle" fill="#94a3b8" font-size="9">CDP report generator</text>
+  <text x="1275" y="429" text-anchor="middle" fill="#94a3b8" font-size="9">Board-ready visuals</text>
+  <text x="1275" y="442" text-anchor="middle" fill="#94a3b8" font-size="9">Benchmark vs. peers</text>
+  <text x="1275" y="455" text-anchor="middle" fill="#94a3b8" font-size="9">YoY progress tracking</text>
+  <text x="1275" y="468" text-anchor="middle" fill="#94a3b8" font-size="9">Export PDF / XLSX</text>
+
+  <!-- ═══ ROW 4: Backend API ═══ -->
+  <text x="90" y="530" fill="#94a3b8" font-size="11" font-weight="600" letter-spacing="2">BACKEND API LAYER</text>
+  <rect x="30" y="537" width="1335" height="65" rx="10" fill="#0a1a2e" stroke="#38bdf8" stroke-width="1.5"/>
+  <text x="697" y="558" text-anchor="middle" fill="#38bdf8" font-size="12" font-weight="700">FastAPI Backend (Python) · REST + WebSocket APIs · JWT Auth · Rate Limiting · Multi-Tenant Middleware</text>
+
+  <rect x="50" y="566" width="110" height="26" rx="5" fill="#061220" stroke="#38bdf8" stroke-width="1"/>
+  <text x="105" y="583" text-anchor="middle" fill="#94a3b8" font-size="9">/api/v1/energy</text>
+  <rect x="170" y="566" width="110" height="26" rx="5" fill="#061220" stroke="#38bdf8" stroke-width="1"/>
+  <text x="225" y="583" text-anchor="middle" fill="#94a3b8" font-size="9">/api/v1/forecasts</text>
+  <rect x="290" y="566" width="110" height="26" rx="5" fill="#061220" stroke="#38bdf8" stroke-width="1"/>
+  <text x="345" y="583" text-anchor="middle" fill="#94a3b8" font-size="9">/api/v1/insights</text>
+  <rect x="410" y="566" width="110" height="26" rx="5" fill="#061220" stroke="#38bdf8" stroke-width="1"/>
+  <text x="465" y="583" text-anchor="middle" fill="#94a3b8" font-size="9">/api/v1/optimize</text>
+  <rect x="530" y="566" width="110" height="26" rx="5" fill="#061220" stroke="#38bdf8" stroke-width="1"/>
+  <text x="585" y="583" text-anchor="middle" fill="#94a3b8" font-size="9">/api/v1/carbon</text>
+  <rect x="650" y="566" width="110" height="26" rx="5" fill="#061220" stroke="#38bdf8" stroke-width="1"/>
+  <text x="705" y="583" text-anchor="middle" fill="#94a3b8" font-size="9">/api/v1/copilot</text>
+  <rect x="770" y="566" width="110" height="26" rx="5" fill="#061220" stroke="#38bdf8" stroke-width="1"/>
+  <text x="825" y="583" text-anchor="middle" fill="#94a3b8" font-size="9">/api/v1/twin</text>
+  <rect x="890" y="566" width="110" height="26" rx="5" fill="#061220" stroke="#38bdf8" stroke-width="1"/>
+  <text x="945" y="583" text-anchor="middle" fill="#94a3b8" font-size="9">/api/v1/alerts</text>
+  <rect x="1010" y="566" width="110" height="26" rx="5" fill="#061220" stroke="#38bdf8" stroke-width="1"/>
+  <text x="1065" y="583" text-anchor="middle" fill="#94a3b8" font-size="9">/api/v1/reports</text>
+  <rect x="1130" y="566" width="110" height="26" rx="5" fill="#061220" stroke="#38bdf8" stroke-width="1"/>
+  <text x="1185" y="583" text-anchor="middle" fill="#94a3b8" font-size="9">/api/v1/orgs</text>
+  <rect x="1250" y="566" width="100" height="26" rx="5" fill="#061220" stroke="#38bdf8" stroke-width="1"/>
+  <text x="1300" y="583" text-anchor="middle" fill="#94a3b8" font-size="9">/api/v1/ws</text>
+
+  <!-- ═══ ROW 5: Data Layer ═══ -->
+  <text x="90" y="625" fill="#94a3b8" font-size="11" font-weight="600" letter-spacing="2">DATA PERSISTENCE LAYER</text>
+  <rect x="30" y="633" width="340" height="90" rx="10" fill="#0a1a1a" stroke="#2dd4bf" stroke-width="1.5"/>
+  <text x="200" y="655" text-anchor="middle" fill="#2dd4bf" font-size="12" font-weight="700">PostgreSQL (Neon/Supabase)</text>
+  <text x="200" y="672" text-anchor="middle" fill="#94a3b8" font-size="9">organizations · facilities · meters · bills</text>
+  <text x="200" y="685" text-anchor="middle" fill="#94a3b8" font-size="9">energy_usage · forecasts · recommendations</text>
+  <text x="200" y="698" text-anchor="middle" fill="#94a3b8" font-size="9">alerts · tariffs · emissions · users · tenants</text>
+  <text x="200" y="711" text-anchor="middle" fill="#94a3b8" font-size="9">Row-Level Security · UUID PKs · Partitioning</text>
+
+  <rect x="385" y="633" width="240" height="90" rx="10" fill="#0a1a1a" stroke="#2dd4bf" stroke-width="1.5"/>
+  <text x="505" y="655" text-anchor="middle" fill="#2dd4bf" font-size="12" font-weight="700">TimescaleDB Extension</text>
+  <text x="505" y="672" text-anchor="middle" fill="#94a3b8" font-size="9">Hypertable: interval_readings</text>
+  <text x="505" y="685" text-anchor="middle" fill="#94a3b8" font-size="9">Continuous aggregates</text>
+  <text x="505" y="698" text-anchor="middle" fill="#94a3b8" font-size="9">Compression policies</text>
+  <text x="505" y="711" text-anchor="middle" fill="#94a3b8" font-size="9">15-min, hourly, daily rollups</text>
+
+  <rect x="640" y="633" width="200" height="90" rx="10" fill="#0a1a1a" stroke="#2dd4bf" stroke-width="1.5"/>
+  <text x="740" y="655" text-anchor="middle" fill="#2dd4bf" font-size="12" font-weight="700">Redis Cache</text>
+  <text x="740" y="672" text-anchor="middle" fill="#94a3b8" font-size="9">Session management</text>
+  <text x="740" y="685" text-anchor="middle" fill="#94a3b8" font-size="9">Real-time metrics cache</text>
+  <text x="740" y="698" text-anchor="middle" fill="#94a3b8" font-size="9">Forecast result cache</text>
+  <text x="740" y="711" text-anchor="middle" fill="#94a3b8" font-size="9">Rate limiting state</text>
+
+  <rect x="855" y="633" width="200" height="90" rx="10" fill="#0a1a1a" stroke="#2dd4bf" stroke-width="1.5"/>
+  <text x="955" y="655" text-anchor="middle" fill="#2dd4bf" font-size="12" font-weight="700">Object Storage</text>
+  <text x="955" y="672" text-anchor="middle" fill="#94a3b8" font-size="9">S3 / Supabase Storage</text>
+  <text x="955" y="685" text-anchor="middle" fill="#94a3b8" font-size="9">PDF bills · CSV exports</text>
+  <text x="955" y="698" text-anchor="middle" fill="#94a3b8" font-size="9">ML model artifacts</text>
+  <text x="955" y="711" text-anchor="middle" fill="#94a3b8" font-size="9">Report snapshots</text>
+
+  <rect x="1070" y="633" width="295" height="90" rx="10" fill="#0a1a1a" stroke="#2dd4bf" stroke-width="1.5"/>
+  <text x="1217" y="655" text-anchor="middle" fill="#2dd4bf" font-size="12" font-weight="700">Message Queue (Redis Streams)</text>
+  <text x="1217" y="672" text-anchor="middle" fill="#94a3b8" font-size="9">ML job scheduling</text>
+  <text x="1217" y="685" text-anchor="middle" fill="#94a3b8" font-size="9">Async forecast triggers</text>
+  <text x="1217" y="698" text-anchor="middle" fill="#94a3b8" font-size="9">Alert dispatch pipeline</text>
+  <text x="1217" y="711" text-anchor="middle" fill="#94a3b8" font-size="9">Webhook event bus</text>
+
+  <!-- ═══ ROW 6: Frontend ═══ -->
+  <text x="90" y="747" fill="#94a3b8" font-size="11" font-weight="600" letter-spacing="2">FRONTEND LAYER</text>
+  <rect x="30" y="754" width="1335" height="55" rx="10" fill="#0f0a1e" stroke="#a78bfa" stroke-width="1.5"/>
+  <text x="697" y="776" text-anchor="middle" fill="#a78bfa" font-size="12" font-weight="700">Next.js 14 (App Router) · TypeScript · TailwindCSS · Recharts/D3 · Zustand · React Query</text>
+  <text x="697" y="797" text-anchor="middle" fill="#94a3b8" font-size="10">Landing → Demo Mode → Portfolio Dashboard → Facility Analytics → AI Insights → Carbon/ESG → Savings Simulator → Copilot</text>
+
+  <!-- ═══ ROW 7: Infra ═══ -->
+  <text x="90" y="835" fill="#94a3b8" font-size="11" font-weight="600" letter-spacing="2">DEPLOYMENT (FREE-TIER DEMO)</text>
+  <rect x="30" y="842" width="310" height="45" rx="8" fill="#0a0a0a" stroke="#6366f1" stroke-width="1.5"/>
+  <text x="185" y="861" text-anchor="middle" fill="#818cf8" font-size="11" font-weight="700">Vercel (Frontend)</text>
+  <text x="185" y="876" text-anchor="middle" fill="#94a3b8" font-size="9">CDN · Edge Functions · Auto-deploy from GitHub</text>
+
+  <rect x="355" y="842" width="310" height="45" rx="8" fill="#0a0a0a" stroke="#6366f1" stroke-width="1.5"/>
+  <text x="510" y="861" text-anchor="middle" fill="#818cf8" font-size="11" font-weight="700">Render / Railway (Backend)</text>
+  <text x="510" y="876" text-anchor="middle" fill="#94a3b8" font-size="9">FastAPI · Docker · Free-tier instance</text>
+
+  <rect x="680" y="842" width="310" height="45" rx="8" fill="#0a0a0a" stroke="#6366f1" stroke-width="1.5"/>
+  <text x="835" y="861" text-anchor="middle" fill="#818cf8" font-size="11" font-weight="700">Neon / Supabase (Database)</text>
+  <text x="835" y="876" text-anchor="middle" fill="#94a3b8" font-size="9">PostgreSQL · Free-tier · Serverless</text>
+
+  <rect x="1005" y="842" width="360" height="45" rx="8" fill="#0a0a0a" stroke="#6366f1" stroke-width="1.5"/>
+  <text x="1185" y="861" text-anchor="middle" fill="#818cf8" font-size="11" font-weight="700">GitHub Actions (CI/CD)</text>
+  <text x="1185" y="876" text-anchor="middle" fill="#94a3b8" font-size="9">Lint · Test · Build · Deploy pipeline</text>
+
+  <!-- Flow arrows: Data Sources → Ingestion -->
+  <line x1="95" y1="172" x2="95" y2="218" stroke="#38bdf8" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arrowBlue)"/>
+  <line x1="240" y1="172" x2="240" y2="218" stroke="#38bdf8" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arrowBlue)"/>
+  <line x1="385" y1="172" x2="385" y2="218" stroke="#38bdf8" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arrowBlue)"/>
+  <line x1="530" y1="172" x2="530" y2="218" stroke="#38bdf8" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arrowBlue)"/>
+  <line x1="675" y1="172" x2="675" y2="218" stroke="#38bdf8" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arrowBlue)"/>
+
+  <!-- Ingestion → AI Engine row -->
+  <line x1="385" y1="288" x2="385" y2="325" stroke="#2dd4bf" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arrowGreen)"/>
+
+  <!-- AI Engine → Backend -->
+  <line x1="385" y1="500" x2="385" y2="537" stroke="#a78bfa" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arrowPurple)"/>
+  <line x1="697" y1="500" x2="697" y2="537" stroke="#fb923c" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arrowOrange)"/>
+  <line x1="885" y1="500" x2="885" y2="537" stroke="#34d399" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arrowGreen)"/>
+  <line x1="1195" y1="500" x2="1195" y2="537" stroke="#fbbf24" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arrowOrange)"/>
+
+  <!-- Backend → Data -->
+  <line x1="697" y1="602" x2="697" y2="633" stroke="#38bdf8" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arrowBlue)"/>
+
+  <!-- Data → Frontend -->
+  <line x1="697" y1="723" x2="697" y2="754" stroke="#a78bfa" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arrowPurple)"/>
+
+  <!-- Frontend → Deploy -->
+  <line x1="697" y1="809" x2="697" y2="842" stroke="#6366f1" stroke-width="1.5" stroke-dasharray="4,3"/>
+</svg>

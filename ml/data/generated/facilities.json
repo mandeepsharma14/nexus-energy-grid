@@ -1,0 +1,44 @@
+{
+  "arcelor_steel": [
+    {
+      "id": "F001",
+      "name": "Plant Alpha",
+      "city": "Columbus",
+      "state": "OH",
+      "sqft": 420000,
+      "base_frac": 0.38
+    },
+    {
+      "id": "F002",
+      "name": "Plant Beta",
+      "city": "Pittsburgh",
+      "state": "PA",
+      "sqft": 310000,
+      "base_frac": 0.29
+    },
+    {
+      "id": "F003",
+      "name": "Plant Gamma",
+      "city": "Detroit",
+      "state": "MI",
+      "sqft": 250000,
+      "base_frac": 0.21
+    },
+    {
+      "id": "F004",
+      "name": "HQ Office",
+      "city": "Chicago",
+      "state": "IL",
+      "sqft": 85000,
+      "base_frac": 0.07
+    },
+    {
+      "id": "F005",
+      "name": "R&D Center",
+      "city": "Indianapolis",
+      "state": "IN",
+      "sqft": 60000,
+      "base_frac": 0.05
+    }
+  ]
+}
