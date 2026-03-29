@@ -20,7 +20,7 @@ NexusGrid is a next-generation, AI-native enterprise energy platform that helps 
 
 ## 🚀 Live Demo
 
-**Demo URL:** `[nexusgrid-demo.vercel.app](https://nexus-energy-grid.vercel.app/demo.html)` *(deploy from this codebase)*
+**Demo URL:** `https://nexus-energy-grid.vercel.app/demo.html` *(deploy from this codebase)*
 
 **Demo Mode:** No login required — 5 pre-loaded organizations:
 | Organization | Type | Annual Spend |
